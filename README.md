@@ -1,1 +1,4 @@
-# moodle-block_qr
+# QR
+
+A block to create and display QR codes.
+
