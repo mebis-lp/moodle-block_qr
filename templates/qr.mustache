@@ -42,7 +42,7 @@ along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 }}
 
 <div id="container{{id}}" style="width: {{size}};max-width:100%;margin: 0 auto;" data-toggle="tooltip" data-html="true" data-placement="auto" title="{{tooltip}}"></div>
-<p class="text-center font-italic">{{message}}</p>
+<p class="text-center font-italic" style="font-size: 1.1rem;">{{message}}</p>
 <script src="{{javascript}}"></script>
 <script>
 let qrcode{{id}} = new QRCode({
@@ -50,8 +50,8 @@ let qrcode{{id}} = new QRCode({
   color: "#000000",
   background: "#ffffff",
   ecl: "M", // Error correction level (L, M, H, Q).
-  container: "svg-viewbox", //Responsive use.
-  join: true //Crisp rendering and 4-5x reduced file size.
+  container: "svg-viewbox", // Responsive use.
+  join: true // Crisp rendering and 4-5x reduced file size.
 });
 let svg{{id}} = qrcode{{id}}.svg();
 document.getElementById("container{{id}}").innerHTML = svg{{id}};

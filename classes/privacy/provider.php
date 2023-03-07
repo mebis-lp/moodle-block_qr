@@ -25,8 +25,6 @@
 
 namespace block_qr\privacy;
 
-defined('MOODLE_INTERNAL') || die();
-
 /**
  * Privacy Subsystem for block_qr implementing null_provider.
  *

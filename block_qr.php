@@ -23,13 +23,13 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class block_qr extends block_base {
-    function init() {
+    public function init() {
         $this->title = get_string('pluginname', 'block_qr');
     }
 
-    function get_content() {
-        global $OUTPUT, $CFG, $PAGE, $course;
-            if ($this->content !== NULL) {
+    public function get_content() {
+        global $OUTPUT, $CFG;
+        if ($this->content !== null) {
             return $this->content;
         }
 
@@ -40,7 +40,7 @@ class block_qr extends block_base {
         if (empty($this->instance)) {
             return $this->content;
         }
-       
+
         $this->content = new stdClass;
         $context = new stdClass;
 
@@ -62,114 +62,125 @@ class block_qr extends block_base {
             if ($context->sectionnum < count($modinfo->get_section_info_all()) - 1) {
                 $context->nextsectionnum = $context->sectionnum + 1;
             }
-        }              
+        }
 
-$format = core_courseformat\base::instance($context->courseid);
+        $format = core_courseformat\base::instance($context->courseid);
 
         $configcontent = null;
         $qrcodecontent = null;
         $tooltip = null;
 
-switch ($this->config->options) {
-   case '0':
-   $qrcodecontent = $this->page->url;
-   $configcontent = get_string('currenturl', 'block_qr');
-   $tooltip = $qrcodecontent;
-   break;
-   case '1':
-    $qrcodecontent = (new moodle_url('/course/view.php',
-    ['id' => $context->courseid]))->out();
-    $configcontent = $this->config->courseurl;
-    $tooltip = $qrcodecontent;
-    break;
-   case '2':   
-    list($type, $id) = explode('=', $this->config->internal);
-    switch ($type) {
-        case 'cmid':
-            $module = $modinfo->get_cm($id);
-            if (!is_null($module->get_url())) {
-            $configcontent = $module->name;
-            $qrcodecontent = $module->url;
-            $tooltip = $qrcodecontent;
-            } else {
-            $configcontent = $module->name;
-            $qrcodecontent = $format->get_view_url($module->sectionnum);
-            $anchor = 'module-' . $id;
-            $qrcodecontent->set_anchor($anchor);
-            $tooltip = $qrcodecontent;
-            }
-            break;
-        case 'section':
-                $section = null;
-                $sectioninfo = $modinfo->get_section_info($id);
-                if (!is_null($sectioninfo)) {
-                    $configcontent = $sectioninfo->name;
-                    if (empty($name)) {
-                        if ($id == 0) {
-                            $configcontent = get_string('general');
+        switch ($this->config->options ?? 0) {
+            case '0':
+                $qrcodecontent = $this->page->url;
+                $configcontent = get_string('currenturl', 'block_qr');
+                $tooltip = $qrcodecontent;
+                break;
+            case '1':
+                $qrcodecontent = (
+                            new moodle_url(
+                                '/course/view.php',
+                                ['id' => $context->courseid]
+                            )
+                        )->out();
+                $configcontent = $this->config->courseurl;
+                $tooltip = $qrcodecontent;
+                break;
+            case '2':
+                list($type, $id) = explode('=', $this->config->internal);
+                switch ($type) {
+                    case 'cmid':
+                        $module = $modinfo->get_cm($id);
+                        if (!is_null($module->get_url())) {
+                            $configcontent = $module->name;
+                            $qrcodecontent = $module->url;
+                            $tooltip = $qrcodecontent;
                         } else {
-                            $configcontent = get_string('section') . ' ' . $id;
+                            $configcontent = $module->name;
+                            $qrcodecontent = $format->get_view_url($module->sectionnum);
+                            $anchor = 'module-' . $id;
+                            $qrcodecontent->set_anchor($anchor);
+                            $tooltip = $qrcodecontent;
                         }
-                    }
-                    $qrcodecontent = $format->get_view_url($id);
-                    $anchor = 'section-' . $id;
-                    $section = $id; 
-                    $tooltip = $qrcodecontent;                
+                        break;
+                    case 'section':
+                        $section = null;
+                        $sectioninfo = $modinfo->get_section_info($id);
+                        if (!is_null($sectioninfo)) {
+                            $configcontent = $sectioninfo->name;
+                            if (empty($name)) {
+                                if ($id == 0) {
+                                    $configcontent = get_string('general');
+                                } else {
+                                    $configcontent = get_string('section') . ' ' . $id;
+                                }
+                            }
+                            $qrcodecontent = $format->get_view_url($id);
+                            $anchor = 'section-' . $id;
+                            $section = $id;
+                            $tooltip = $qrcodecontent;
+                        }
+                        break;
                 }
                 break;
-        }
-    break;
-case '3':
-    $qrcodecontent = $this->config->content;
-    $configcontent = "";
-    $tooltip = $qrcodecontent; 
-    break;
+            case '3':
+                $qrcodecontent = $this->config->content;
+                $configcontent = "";
+                $tooltip = $qrcodecontent;
+                break;
 
             case '4':
+                $qrcodecontent = "BEGIN:VCALENDAR" . '\n';
+                $qrcodecontent .= "VERSION:2.0" . '\n';
+                $qrcodecontent .= "BEGIN:VEVENT" . '\n';
+                $qrcodecontent .= "SUMMARY:" . $this->config->event_summary . '\n';
+                $qrcodecontent .= "LOCATION:" . $this->config->event_location . '\n';
                 switch ($this->config->allday) {
                     case '0':
-                        $qrcodecontent = "BEGIN:VCALENDAR" . '\n' . "BEGIN:VEVENT" . '\n' . "SUMMARY:" . $this->config->event_summary . '\n' . "LOCATION:" . $this->config->event_location . '\n' . "DTSTART:" . date('Ymd\THis', $this->config->event_start) . '\n' . "DTEND:" . date('Ymd\THis', $this->config->event_end) . '\n' . "END:VEVENT" . '\n' . "END:VCALENDAR";
-                        $configcontent = $this->content->text .= get_string('event', 'block_qr');
-                        $tooltip = $this->config->event_summary . "<br>" . $this->config->event_location . "<br>" . date('d.m.Y - H:i', $this->config->event_start) . "<br>" . date('d.m.Y - H:i', $this->config->event_end);
+                        $qrcodecontent .= "DTSTART:" . date('Ymd\THis', $this->config->event_start) . '\n';
+                        $qrcodecontent .= "DTEND:" . date('Ymd\THis', $this->config->event_end) . '\n';
                         break;
                     case '1':
-                        $qrcodecontent = "BEGIN:VCALENDAR" . '\n' . "BEGIN:VEVENT" . '\n' . "SUMMARY:" . $this->config->event_summary . '\n' . "LOCATION:" . $this->config->event_location . '\n' . "DTSTART:" . date('Ymd', $this->config->event_start) . '\n' . "DTEND:" . date('Ymd', $this->config->event_end) . '\n' . "END:VEVENT" . '\n' . "END:VCALENDAR";
-                        $configcontent = $this->content->text .= get_string('event', 'block_qr');
-                        $tooltip = $this->config->event_summary . "<br>" . $this->config->event_location . "<br>" . date('d.m.Y', $this->config->event_start) . "<br>" . date('d.m.Y', $this->config->event_end);
-                        
+                        $qrcodecontent .= "DTSTART:" . date('Ymd', $this->config->event_start) . '\n';
+                        $qrcodecontent .= "DTEND:" . date('Ymd', $this->config->event_end) . '\n';
                 }
-    break;
+                $qrcodecontent .= "END:VEVENT" . '\n';
+                $qrcodecontent .= "END:VCALENDAR" . '\n';
+                $configcontent = $this->content->text .= get_string('event', 'block_qr');
+                $tooltip = $this->config->event_summary . "<br>";
+                $tooltip .= $this->config->event_location . "<br>";
+                $tooltip .= date('d.m.Y - H:i', $this->config->event_start) . "<br>";
+                $tooltip .= date('d.m.Y - H:i', $this->config->event_end);
+               break;
 
-case '5':
-    $qrcodecontent = "geo:" . $this->config->geolocation_br . "," . $this->config->geolocation_lng;
-    $configcontent = get_string('geolocation', 'block_qr');
-    $tooltip = $qrcodecontent;
-}
+            case '5':
+                $qrcodecontent = "geo:" . $this->config->geolocation_br . "," . $this->config->geolocation_lng;
+                $configcontent = get_string('geolocation', 'block_qr');
+                $tooltip = $qrcodecontent;
+        }
 
+        $svgsize = isset($this->config->size) ? $this->config->size : '275px';
 
-    $svg_size = $this->config->size;
+        // Use for multiple id for multiple QR codes on one page.
+        $blockid = $this->context->id;
 
-// Use for multiple id for multiple QR codes on one page.
-    $block_id = $this->context->id;
-        
+        $javascripturl = $CFG->wwwroot . '/blocks/qr/js/qrcode.min.js';
 
-    $javascript_url = $CFG->wwwroot.'/blocks/qr/js/qrcode.min.js';
-
-$data = [  
+        $data = [
             'qrcodecontent' => $qrcodecontent,
             'message' => $configcontent,
-            'javascript' => $javascript_url,
-            'size' => $svg_size,
-            'id' => $block_id,
+            'javascript' => $javascripturl,
+            'size' => $svgsize,
+            'id' => $blockid,
             'tooltip' => $tooltip
         ];
-        $this->content->text = $OUTPUT->render_from_template('block_qr/qr', $data);        
+        $this->content->text = $OUTPUT->render_from_template('block_qr/qr', $data);
         return $this->content;
     }
 
-    
 
-/**
+
+    /**
      * Locations where block can be displayed.
      *
      * @return array
@@ -184,8 +195,7 @@ $data = [
      * @return boolean
      */
     public function instance_allow_multiple() {
-          return true;
+        return true;
     }
 
-  
 }
