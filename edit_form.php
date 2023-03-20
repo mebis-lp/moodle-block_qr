@@ -106,9 +106,9 @@ class block_qr_edit_form extends block_edit_form {
         $mform->hideIf('config_internal', 'config_options', 'neq', '2');
         $mform->setType('config_internal', PARAM_TEXT);
         // Text field.
-        $mform->addElement('text', 'config_content', get_string('owncontent_label', 'block_qr'), 'size="40"');
-        $mform->hideIf('config_content', 'config_options', 'neq', '3');
-        $mform->setType('config_content', PARAM_NOTAGS);
+        $mform->addElement('text', 'config_owncontent', get_string('owncontent_label', 'block_qr'), 'size="40"');
+        $mform->hideIf('config_owncontent', 'config_options', 'neq', '3');
+        $mform->setType('config_owncontent', PARAM_NOTAGS);
         // Calendar fields.
         $mform->addElement('text', 'config_event_summary', get_string('event_summary', 'block_qr'));
         $mform->setType('config_event_summary', PARAM_TEXT);

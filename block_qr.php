@@ -124,9 +124,11 @@ class block_qr extends block_base {
                 }
                 break;
             case '3':
-                $qrcodecontent = $this->config->content;
+                $url = $this->config->owncontent;
                 $configcontent = "";
+                $qrcodecontent = $url;
                 $tooltip = $qrcodecontent;
+
                 break;
 
             case '4':
