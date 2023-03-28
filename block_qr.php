@@ -149,18 +149,22 @@ class block_qr extends block_base {
                     case '0':
                         $qrcodecontent .= "DTSTART:" . date('Ymd\THis', $this->config->event_start) . '\n';
                         $qrcodecontent .= "DTEND:" . date('Ymd\THis', $this->config->event_end) . '\n';
+                        $tooltip = $this->config->event_summary . "<br>";
+                        $tooltip .= $this->config->event_location . "<br>";
+                        $tooltip .= date('d.m.Y - H:i', $this->config->event_start) . "<br>";
+                        $tooltip .= date('d.m.Y - H:i', $this->config->event_end);
                         break;
                     case '1':
                         $qrcodecontent .= "DTSTART:" . date('Ymd', $this->config->event_start) . '\n';
                         $qrcodecontent .= "DTEND:" . date('Ymd', $this->config->event_end) . '\n';
+                        $tooltip = $this->config->event_summary . "<br>";
+                        $tooltip .= $this->config->event_location . "<br>";
+                        $tooltip .= date('d.m.Y', $this->config->event_start) . "<br>";
+                        $tooltip .= date('d.m.Y', $this->config->event_end);
                 }
                 $qrcodecontent .= "END:VEVENT" . '\n';
                 $qrcodecontent .= "END:VCALENDAR" . '\n';
                 $configcontent = get_string('event', 'block_qr');
-                $tooltip = $this->config->event_summary . "<br>";
-                $tooltip .= $this->config->event_location . "<br>";
-                $tooltip .= date('d.m.Y - H:i', $this->config->event_start) . "<br>";
-                $tooltip .= date('d.m.Y - H:i', $this->config->event_end);
                 $qrurl = false;
                 break;
 
