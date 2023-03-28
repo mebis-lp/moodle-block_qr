@@ -40,8 +40,13 @@ along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
     ]
     }
 }}
-
+{{#qrurl}}
+<a href="{{qrcodecontent}}">
+{{/qrurl}}
 <div id="container{{id}}" style="width: {{size}};max-width:100%;margin: 0 auto;" data-toggle="tooltip" data-html="true" data-placement="auto" title="{{tooltip}}"></div>
+{{#qrurl}}
+</a>
+{{/qrurl}}
 <p class="text-center font-italic" style="font-size: 1.1rem;">{{message}}</p>
 <script src="{{javascript}}"></script>
 <script>

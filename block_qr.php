@@ -69,25 +69,29 @@ class block_qr extends block_base {
         $configcontent = null;
         $qrcodecontent = null;
         $tooltip = null;
+        $qrurl = false;
 
         switch ($this->config->options ?? 0) {
             case '0':
                 $qrcodecontent = $this->page->url;
                 $configcontent = get_string('currenturl', 'block_qr');
                 $tooltip = $qrcodecontent;
+                $qrurl = true;
                 break;
             case '1':
                 $qrcodecontent = (
-                            new moodle_url(
-                                '/course/view.php',
-                                ['id' => $context->courseid]
-                            )
-                        )->out();
+                    new moodle_url(
+                    '/course/view.php',
+                        ['id' => $context->courseid]
+                    )
+                )->out();
                 $configcontent = $this->config->courseurl;
                 $tooltip = $qrcodecontent;
+                $qrurl = true;
                 break;
             case '2':
                 list($type, $id) = explode('=', $this->config->internal);
+                $qrurl = true;
                 switch ($type) {
                     case 'cmid':
                         $module = $modinfo->get_cm($id);
@@ -128,7 +132,11 @@ class block_qr extends block_base {
                 $configcontent = "";
                 $qrcodecontent = $url;
                 $tooltip = $qrcodecontent;
-
+                if (filter_var($qrcodecontent, FILTER_VALIDATE_URL) === false) {
+                    $qrurl = false;
+                } else {
+                    $qrurl = true;
+                }
                 break;
 
             case '4':
@@ -148,17 +156,19 @@ class block_qr extends block_base {
                 }
                 $qrcodecontent .= "END:VEVENT" . '\n';
                 $qrcodecontent .= "END:VCALENDAR" . '\n';
-                $configcontent = $this->content->text .= get_string('event', 'block_qr');
+                $configcontent = get_string('event', 'block_qr');
                 $tooltip = $this->config->event_summary . "<br>";
                 $tooltip .= $this->config->event_location . "<br>";
                 $tooltip .= date('d.m.Y - H:i', $this->config->event_start) . "<br>";
                 $tooltip .= date('d.m.Y - H:i', $this->config->event_end);
-               break;
+                $qrurl = false;
+                break;
 
             case '5':
                 $qrcodecontent = "geo:" . $this->config->geolocation_br . "," . $this->config->geolocation_lng;
                 $configcontent = get_string('geolocation', 'block_qr');
                 $tooltip = $qrcodecontent;
+                $qrurl = false;
         }
 
         $svgsize = isset($this->config->size) ? $this->config->size : '275px';
@@ -174,7 +184,8 @@ class block_qr extends block_base {
             'javascript' => $javascripturl,
             'size' => $svgsize,
             'id' => $blockid,
-            'tooltip' => $tooltip
+            'tooltip' => $tooltip,
+            'qrurl' => $qrurl
         ];
         $this->content->text = $OUTPUT->render_from_template('block_qr/qr', $data);
         return $this->content;
@@ -199,5 +210,4 @@ class block_qr extends block_base {
     public function instance_allow_multiple() {
         return true;
     }
-
 }

@@ -101,16 +101,14 @@ class restore_qr_block_task extends restore_block_task {
                 $decoder->add_rule($rule);
             }
 
-            foreach ($config->owncontent as $key => $url) {
-                $config->owncontent[$key] = $decoder->decode_content($url);
-            }
+            $config->owncontent = $decoder->decode_content($config->owncontent);
 
-            foreach ($config->cmid as $key => $url) {
-                list($type, $id) = explode('=', $url);
+            if (isset($config->internal)) {
+                list($type, $id) = explode('=', $config->internal);
                 if ($type == 'cmid') {
                     $moduleid = restore_dbops::get_backup_ids_record($this->get_restoreid(), 'course_module', $id);
                     if ($moduleid) {
-                        $config->cmid[$key] = 'cmid=' . $moduleid->newitemid;
+                        $config->internal = 'cmid=' . $moduleid->newitemid;
                     } else {
                         try {
                             $modinfo->get_cm($config->cmid);
