@@ -77,8 +77,6 @@ class block_qr extends block_base {
         $calendarlocation = null;
         $calendarstart = null;
         $calendarend = null;
-        $urlshortlabel = get_string('urlshortlabel', 'block_qr');
-
         switch ($this->config->options ?? 0) {
             case '0':
                 $qrcodecontent = $this->page->url;
@@ -175,14 +173,15 @@ class block_qr extends block_base {
                         $calendarend = date('H:i', $this->config->event_end);
                         break;
                     case '1':
+                        $dateformat = get_string('strftimedateallday', 'block_qr');
                         $qrcodecontent .= "DTSTART:" . date('Ymd', $this->config->event_start) . '\n';
                         $qrcodecontent .= "DTEND:" . date('Ymd', $this->config->event_end) . '\n';
                         $tooltip = $this->config->event_summary . "<br>";
                         $tooltip .= $this->config->event_location . "<br>";
-                        $tooltip .= date('d.m.Y', $this->config->event_start) . " - ";
-                        $tooltip .= date('d.m.Y', $this->config->event_end);
-                        $calendarstart = date('d.m.Y', $this->config->event_start);
-                        $calendarend = date('d.m.Y', $this->config->event_end);
+                        $tooltip .= date($dateformat, $this->config->event_start) . " - ";
+                        $tooltip .= date($dateformat, $this->config->event_end);
+                        $calendarstart = date($dateformat, $this->config->event_start);
+                        $calendarend = date($dateformat, $this->config->event_end);
                 }
                 $qrcodecontent .= "END:VEVENT" . '\n';
                 $qrcodecontent .= "END:VCALENDAR" . '\n';
@@ -234,9 +233,7 @@ class block_qr extends block_base {
             'calendarstart' => $calendarstart,
             'calendarend' => $calendarend ,
             'qrcodelink' => $qrcodelink,
-            'urlshort' => $urlshort,
-            'urlshortlabel' => $urlshortlabel
-
+            'urlshort' => $urlshort
         ];
         $this->content->text = $OUTPUT->render_from_template('block_qr/qr', $data);
         return $this->content;
