@@ -163,14 +163,16 @@ class block_qr extends block_base {
                 $qrcodecontent .= "LOCATION:" . $this->config->event_location . '\n';
                 switch ($this->config->allday) {
                     case '0':
+                        $dateformat = get_string('strftimedate', 'block_qr');
+                        $timeformat = get_string('strftimedatetime', 'block_qr');
                         $qrcodecontent .= "DTSTART:" . date('Ymd\THis', $this->config->event_start) . '\n';
                         $qrcodecontent .= "DTEND:" . date('Ymd\THis', $this->config->event_end) . '\n';
                         $tooltip = $this->config->event_summary . "<br>";
                         $tooltip .= $this->config->event_location . "<br>";
-                        $tooltip .= date('d.m.Y, H:i', $this->config->event_start) . " - ";
-                        $tooltip .= date('H:i', $this->config->event_end);
-                        $calendarstart = date('d.m.Y, H:i', $this->config->event_start);
-                        $calendarend = date('H:i', $this->config->event_end);
+                        $tooltip .= date($dateformat, $this->config->event_start) . " - ";
+                        $tooltip .= date($timeformat, $this->config->event_end);
+                        $calendarstart = date($dateformat, $this->config->event_start);
+                        $calendarend = date($timeformat, $this->config->event_end);
                         break;
                     case '1':
                         $dateformat = get_string('strftimedateallday', 'block_qr');

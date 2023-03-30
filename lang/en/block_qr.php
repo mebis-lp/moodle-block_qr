@@ -63,6 +63,7 @@ $string['privacy:metadata'] = 'The Latest QR Code block only shows data does not
 $string['settings'] = 'Settings';
 $string['small'] = 'Small';
 $string['strftimedate'] = 'y-m-d, h:i';
+$string['strftimedatetime'] = 'h:i';
 $string['strftimedateallday'] = 'y-m-d';
 $string['thisurl'] = 'Link to this page';
 $string['urlshortlabel'] = 'Create short link';
