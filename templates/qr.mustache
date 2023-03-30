@@ -41,13 +41,26 @@ along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
     }
 }}
 {{#qrurl}}
-<a href="{{qrcodecontent}}">
+<a href="{{qrcodelink}}">
 {{/qrurl}}
 <div id="container{{id}}" style="width: {{size}};max-width:100%;margin: 0 auto;" data-toggle="tooltip" data-html="true" data-placement="auto" title="{{tooltip}}"></div>
 {{#qrurl}}
 </a>
 {{/qrurl}}
-<p class="text-center font-italic" style="font-size: 1.1rem;">{{message}}</p>
+<hr>
+{{^calendar}}<p class="text-center">{{message}}<br></p>{{/calendar}}
+{{#calendar}}
+<p class="text-center">
+{{#calendarsummary}}{{calendarsummary}}<br>{{/calendarsummary}}
+{{#calendarlocation}}<i class="fa fa-map-marker"></i> {{calendarlocation}}</li><br>{{/calendarlocation}}
+<i class="fa fa-calendar"></i> {{calendarstart}} - {{calendarend}}
+</p>
+{{/calendar}}
+
+{{#geocoordinates}}
+<p class="text-center">
+<i class="fa fa-map-marker"></i> {{#qrurl}}<a href="{{qrcodelink}}">{{/qrurl}}{{geocoordinates}}{{#qrurl}}</a>{{/qrurl}}</p>
+{{/geocoordinates}}
 <script src="{{javascript}}"></script>
 <script>
 let qrcode{{id}} = new QRCode({

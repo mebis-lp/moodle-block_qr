@@ -151,6 +151,19 @@ class block_qr_edit_form extends block_edit_form {
         $mform->addHelpButton('config_geolocation_lng', 'config_geolocation_lng', 'block_qr');
         $mform->hideIf('config_geolocation_lng', 'config_options', 'neq', '5');
         $mform->setType('config_geolocation_lng', PARAM_TEXT);
+        $linkoptions = array(
+            'nolink' => get_string('nolink', 'block_qr'),
+            'osm' => get_string('osm', 'block_qr'),
+        );
+        $mform->addElement(
+            'select',
+            'config_link',
+            get_string('config_link_label', 'block_qr'),
+            $linkoptions,
+        );
+        $mform->hideIf('config_link', 'config_options', 'neq', '5');
+        $mform->setType('config_link', PARAM_TEXT);
+
         // Section header title.
         $mform->addElement('header', 'widthheader', get_string('settings', 'block_qr'));
         // Settings.
