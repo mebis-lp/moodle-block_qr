@@ -169,21 +169,35 @@ class block_qr extends block_base {
                         $qrcodecontent .= "DTEND:" . date('Ymd\THis', $this->config->event_end) . '\n';
                         $tooltip = $this->config->event_summary . "<br>";
                         $tooltip .= $this->config->event_location . "<br>";
-                        $tooltip .= date($dateformat, $this->config->event_start) . " - ";
-                        $tooltip .= date($timeformat, $this->config->event_end);
-                        $calendarstart = date($dateformat, $this->config->event_start);
-                        $calendarend = date($timeformat, $this->config->event_end);
+                        if (date('ymd', $this->config->event_end) != date('ymd', $this->config->event_start)) {
+                            $tooltip .= date($dateformat, $this->config->event_start) . " - ";
+                            $tooltip .= date($dateformat, $this->config->event_end);
+                            $calendarstart = date($dateformat, $this->config->event_start) . " - ";
+                            $calendarend = date($dateformat, $this->config->event_end);
+                        } else {
+                            $tooltip .= date($dateformat, $this->config->event_start) . " - ";
+                            $tooltip .= date($timeformat, $this->config->event_end);
+                            $calendarstart = date($dateformat, $this->config->event_start) . " - ";
+                            $calendarend = date($timeformat, $this->config->event_end);
+                        }
                         break;
                     case '1':
                         $dateformat = get_string('strftimedateallday', 'block_qr');
+                        $timeformat = get_string('strftimedatetime', 'block_qr');
                         $qrcodecontent .= "DTSTART:" . date('Ymd', $this->config->event_start) . '\n';
                         $qrcodecontent .= "DTEND:" . date('Ymd', $this->config->event_end) . '\n';
                         $tooltip = $this->config->event_summary . "<br>";
                         $tooltip .= $this->config->event_location . "<br>";
-                        $tooltip .= date($dateformat, $this->config->event_start) . " - ";
-                        $tooltip .= date($dateformat, $this->config->event_end);
-                        $calendarstart = date($dateformat, $this->config->event_start);
-                        $calendarend = date($dateformat, $this->config->event_end);
+                        if (date('ymd', $this->config->event_end) != date('ymd', $this->config->event_start)) {
+                            $tooltip .= date($dateformat, $this->config->event_start) . " - ";
+                            $tooltip .= date($dateformat, $this->config->event_end);
+                            $calendarstart = date($dateformat, $this->config->event_start) . " - ";
+                            $calendarend = date($dateformat, $this->config->event_end);
+                        } else {
+                            $tooltip .= date($dateformat, $this->config->event_start);
+                            $calendarstart = date($dateformat, $this->config->event_start);
+                            $calendarend = null;
+                        }
                 }
                 $qrcodecontent .= "END:VEVENT" . '\n';
                 $qrcodecontent .= "END:VCALENDAR" . '\n';
