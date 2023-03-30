@@ -77,6 +77,7 @@ class block_qr extends block_base {
         $calendarlocation = null;
         $calendarstart = null;
         $calendarend = null;
+        $urlshortlabel = get_string('urlshortlabel', 'block_qr');
 
         switch ($this->config->options ?? 0) {
             case '0':
@@ -103,7 +104,6 @@ class block_qr extends block_base {
             case '2':
                 list($type, $id) = explode('=', $this->config->internal);
                 $qrurl = true;
-                $qrcodelink = $qrcodecontent;
                 $calendar = false;
                 switch ($type) {
                     case 'cmid':
@@ -112,12 +112,14 @@ class block_qr extends block_base {
                             $configcontent = $module->name;
                             $qrcodecontent = $module->url;
                             $tooltip = $qrcodecontent;
+                            $qrcodelink = $qrcodecontent;
                         } else {
                             $configcontent = $module->name;
                             $qrcodecontent = $format->get_view_url($module->sectionnum);
                             $anchor = 'module-' . $id;
                             $qrcodecontent->set_anchor($anchor);
                             $tooltip = $qrcodecontent;
+                            $qrcodelink = $qrcodecontent;
                         }
                         break;
                     case 'section':
@@ -136,6 +138,7 @@ class block_qr extends block_base {
                             $anchor = 'section-' . $id;
                             $section = $id;
                             $tooltip = $qrcodecontent;
+                            $qrcodelink = $qrcodecontent;
                         }
                         break;
                 }
@@ -208,7 +211,7 @@ class block_qr extends block_base {
                         break;
                 }
         }
-
+        $urlshort = urlencode($qrcodelink);
         $svgsize = isset($this->config->size) ? $this->config->size : '275px';
 
         // Use for multiple id for multiple QR codes on one page.
@@ -230,7 +233,10 @@ class block_qr extends block_base {
             'calendarlocation' => $calendarlocation,
             'calendarstart' => $calendarstart,
             'calendarend' => $calendarend ,
-            'qrcodelink' => $qrcodelink
+            'qrcodelink' => $qrcodelink,
+            'urlshort' => $urlshort,
+            'urlshortlabel' => $urlshortlabel
+
         ];
         $this->content->text = $OUTPUT->render_from_template('block_qr/qr', $data);
         return $this->content;

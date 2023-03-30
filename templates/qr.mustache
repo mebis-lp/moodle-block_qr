@@ -61,6 +61,9 @@ along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 <p class="text-center">
 <i class="fa fa-map-marker"></i> {{#qrurl}}<a href="{{qrcodelink}}">{{/qrurl}}{{geocoordinates}}{{#qrurl}}</a>{{/qrurl}}</p>
 {{/geocoordinates}}
+{{#qrurl}}
+<p class="text-center"><i class="fa fa-location-arrow"></i> <a href="https://kurzlinks.mebis.bayern.de/home?link={{urlshort}}">{{urlshortlabel}}</a></p>
+{{/qrurl}}
 <script src="{{javascript}}"></script>
 <script>
 let qrcode{{id}} = new QRCode({

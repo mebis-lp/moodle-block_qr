@@ -63,3 +63,4 @@ $string['privacy:metadata'] = 'The Latest QR Code block only shows data does not
 $string['settings'] = 'Settings';
 $string['small'] = 'Small';
 $string['thisurl'] = 'Link to this page';
+$string['urlshortlabel'] = 'Create short link';
