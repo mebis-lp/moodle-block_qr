@@ -28,7 +28,7 @@ class block_qr extends block_base {
     }
 
     public function get_content() {
-        global $OUTPUT, $CFG;
+        global $USER, $OUTPUT, $CFG;
         if ($this->content !== null) {
             return $this->content;
         }
@@ -77,8 +77,9 @@ class block_qr extends block_base {
         $calendarlocation = null;
         $calendarstart = null;
         $calendarend = null;
+        $fullview = false;
         switch ($this->config->options ?? 0) {
-            case '0':
+            case 'currenturl':
                 $qrcodecontent = $this->page->url;
                 $configcontent = get_string('thisurl', 'block_qr');
                 $tooltip = $qrcodecontent;
@@ -86,7 +87,7 @@ class block_qr extends block_base {
                 $qrurl = true;
                 $calendar = false;
                 break;
-            case '1':
+            case 'courseurl':
                 $qrcodecontent = (
                     new moodle_url(
                     '/course/view.php',
@@ -99,7 +100,7 @@ class block_qr extends block_base {
                 $qrurl = true;
                 $calendar = false;
                 break;
-            case '2':
+            case 'internalcontent':
                 list($type, $id) = explode('=', $this->config->internal);
                 $qrurl = true;
                 $calendar = false;
@@ -141,7 +142,7 @@ class block_qr extends block_base {
                         break;
                 }
                 break;
-            case '3':
+            case 'owncontent':
                 $url = $this->config->owncontent;
                 $configcontent = "";
                 $qrcodecontent = $url;
@@ -155,7 +156,7 @@ class block_qr extends block_base {
                 }
                 break;
 
-            case '4':
+            case 'event':
                 $qrcodecontent = "BEGIN:VCALENDAR" . '\n';
                 $qrcodecontent .= "VERSION:2.0" . '\n';
                 $qrcodecontent .= "BEGIN:VEVENT" . '\n';
@@ -208,7 +209,7 @@ class block_qr extends block_base {
                 $calendar = true;
                 break;
 
-            case '5':
+            case 'geolocation':
                 $qrcodecontent = "geo:" . $this->config->geolocation_br . "," . $this->config->geolocation_lng;
                 $configcontent = get_string('geolocation', 'block_qr');
                 $geocoordinates = $this->config->geolocation_br . ', ' . $this->config->geolocation_lng;
@@ -226,7 +227,16 @@ class block_qr extends block_base {
                         break;
                 }
         }
+
+        // Short link option only in edit mode.
+        if ($USER->editing == 0) {
+            $fullview = false;
+        } else {
+            $fullview = true;
+        }
+
         $urlshort = urlencode($qrcodelink);
+
         $svgsize = isset($this->config->size) ? $this->config->size : '275px';
 
         // Use for multiple id for multiple QR codes on one page.
@@ -247,13 +257,15 @@ class block_qr extends block_base {
             'calendarsummary' => $calendarsummary,
             'calendarlocation' => $calendarlocation,
             'calendarstart' => $calendarstart,
-            'calendarend' => $calendarend ,
+            'calendarend' => $calendarend,
             'qrcodelink' => $qrcodelink,
-            'urlshort' => $urlshort
+            'urlshort' => $urlshort,
+            'fullview' => $fullview
         ];
         $this->content->text = $OUTPUT->render_from_template('block_qr/qr', $data);
         return $this->content;
     }
+
 
 
 

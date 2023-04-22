@@ -77,12 +77,12 @@ class block_qr_edit_form extends block_edit_form {
         $mform->addElement('header', 'widthheader', get_string('codecontent', 'block_qr'));
         // Add options for the creation of the qr code.
         $options = array(
-            '0' => get_string('currenturl', 'block_qr'),
-            '1' => get_string('courseurl', 'block_qr'),
-            '2' => get_string('internalcontent', 'block_qr'),
-            '3' => get_string('owncontent', 'block_qr'),
-            '4' => get_string('event', 'block_qr'),
-            '5' => get_string('geolocation', 'block_qr')
+            'currenturl' => get_string('currenturl', 'block_qr'),
+            'courseurl' => get_string('courseurl', 'block_qr'),
+            'internalcontent' => get_string('internalcontent', 'block_qr'),
+            'owncontent' => get_string('owncontent', 'block_qr'),
+            'event' => get_string('event', 'block_qr'),
+            'geolocation' => get_string('geolocation', 'block_qr')
         );
         $selectoptions = $mform->addElement(
             'select',
@@ -94,7 +94,7 @@ class block_qr_edit_form extends block_edit_form {
         $mform->setType('config_options', PARAM_TEXT);
         // Course link.
         $mform->addElement('text', 'config_courseurl', get_string('courseurl_label', 'block_qr'), 'size="40"');
-        $mform->hideIf('config_courseurl', 'config_options', 'neq', '1');
+        $mform->hideIf('config_courseurl', 'config_options', 'neq', 'courseurl');
         $mform->setType('config_courseurl', PARAM_TEXT);
         // Selection for internal links.
         $mform->addElement(
@@ -103,28 +103,28 @@ class block_qr_edit_form extends block_edit_form {
             get_string('internalcontent_label', 'block_qr'),
             $this->courselist,
         );
-        $mform->hideIf('config_internal', 'config_options', 'neq', '2');
+        $mform->hideIf('config_internal', 'config_options', 'neq', 'internalcontent');
         $mform->setType('config_internal', PARAM_TEXT);
         // Text field.
         $mform->addElement('text', 'config_owncontent', get_string('owncontent_label', 'block_qr'), 'size="40"');
-        $mform->hideIf('config_owncontent', 'config_options', 'neq', '3');
+        $mform->hideIf('config_owncontent', 'config_options', 'neq', 'owncontent');
         $mform->setType('config_owncontent', PARAM_NOTAGS);
         // Calendar fields.
         $mform->addElement('text', 'config_event_summary', get_string('event_summary', 'block_qr'));
         $mform->setType('config_event_summary', PARAM_TEXT);
-        $mform->hideIf('config_event_summary', 'config_options', 'neq', '4');
+        $mform->hideIf('config_event_summary', 'config_options', 'neq', 'event');
         $mform->addElement('text', 'config_event_location', get_string('event_location', 'block_qr'));
-        $mform->hideIf('config_event_location', 'config_options', 'neq', '4');
+        $mform->hideIf('config_event_location', 'config_options', 'neq', 'event');
         $mform->setType('config_event_location', PARAM_TEXT);
         $mform->addElement('advcheckbox', 'config_allday', get_string('allday', 'block_qr'));
-        $mform->hideIf('config_allday', 'config_options', 'neq', '4');
+        $mform->hideIf('config_allday', 'config_options', 'neq', 'event');
         $mform->addElement('date_time_selector', 'config_event_start', get_string('event_start', 'block_qr'));
         $mform->hideIf('config_event_start[hour]', 'config_allday', 'neq', '0');
         $mform->hideIf('config_event_start[minute]', 'config_allday', 'neq', '0');
-        $mform->hideIf('config_event_start', 'config_options', 'neq', '4');
+        $mform->hideIf('config_event_start', 'config_options', 'neq', 'event');
         $mform->setType('config_event_start', PARAM_RAW);
         $mform->addElement('date_time_selector', 'config_event_end', get_string('event_end', 'block_qr'));
-        $mform->hideIf('config_event_end', 'config_options', 'neq', '4');
+        $mform->hideIf('config_event_end', 'config_options', 'neq', 'event');
         $mform->hideIf('config_event_end[hour]', 'config_allday', 'neq', '0');
         $mform->hideIf('config_event_end[minute]', 'config_allday', 'neq', '0');
         $mform->setType('config_event_end', PARAM_RAW);
@@ -135,21 +135,21 @@ class block_qr_edit_form extends block_edit_form {
             get_string('latitude_error', 'block_qr'),
             'regex',
             '/^-?([0-8]?[0-9]|90)(\.[0-9]{1,20})?$/',
-            'server'
+            'client'
         );
         $mform->addHelpButton('config_geolocation_br', 'config_geolocation_br', 'block_qr');
         $mform->setType('config_geolocation_br', PARAM_TEXT);
         $mform->addElement('text', 'config_geolocation_lng', get_string('longitude', 'block_qr'));
-        $mform->hideIf('config_geolocation_br', 'config_options', 'neq', '5');
+        $mform->hideIf('config_geolocation_br', 'config_options', 'neq', 'geolocation');
         $mform->addRule(
             'config_geolocation_lng',
             get_string('longitude_error', 'block_qr'),
             'regex',
             '/^-?([0-9]{1,2}|1[0-7][0-9]|180)(\.[0-9]{1,20})?$/',
-            'server'
+            'client'
         );
         $mform->addHelpButton('config_geolocation_lng', 'config_geolocation_lng', 'block_qr');
-        $mform->hideIf('config_geolocation_lng', 'config_options', 'neq', '5');
+        $mform->hideIf('config_geolocation_lng', 'config_options', 'neq', 'geolocation');
         $mform->setType('config_geolocation_lng', PARAM_TEXT);
         $linkoptions = array(
             'nolink' => get_string('nolink', 'block_qr'),
@@ -161,7 +161,7 @@ class block_qr_edit_form extends block_edit_form {
             get_string('config_link_label', 'block_qr'),
             $linkoptions,
         );
-        $mform->hideIf('config_link', 'config_options', 'neq', '5');
+        $mform->hideIf('config_link', 'config_options', 'neq', 'geolocation');
         $mform->setType('config_link', PARAM_TEXT);
 
         // Section header title.

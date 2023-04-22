@@ -17,8 +17,6 @@ along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 {{!
     @template block_qr/edit
 
-    Template for displaying the edit-button.
-
     Classes required for JS:
     * none
 
@@ -29,15 +27,23 @@ along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
     * none
 
     Example context (json):
-    {
-    "icons":[
-        {
-            "name":"Section 0",
-            "url":"https://localhost/...",
-            "icon":"fa-globe",
-            "iconstyle":"background:green;"
-        }
-    ]
+   {
+      "qrurl": {
+        "qrcodelink": "https://moodle.org",
+        "urlshort": "https://moodle.org",
+      },
+      "size": "275px",
+      "tooltip": "This is a tooltip",
+      "message": "This is a message",
+      "calendar": {
+        "calendarsummary": "Meeting",
+        "calendarlocation": "Munich",
+        "calendarstart": "2023-05-01 ",
+        "calendarend": "2023-06-30"
+      },
+      "geocoordinates": "48.1698,10.1936",
+      "qrcodecontent": "test123",
+      "id": "0"
     }
 }}
 {{#qrurl}}
@@ -62,10 +68,14 @@ along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 <i class="fa fa-map-marker"></i> {{#qrurl}}<a href="{{qrcodelink}}">{{/qrurl}}{{geocoordinates}}{{#qrurl}}</a>{{/qrurl}}</p>
 {{/geocoordinates}}
 {{#qrurl}}
-<p class="text-center"><i class="fa fa-location-arrow"></i> <a href="https://kurzlinks.mebis.bayern.de/home?link={{urlshort}}">{{#str}} urlshortlabel, block_qr {{/str}}</a></p>
+
 {{/qrurl}}
+
 <script src="{{javascript}}"></script>
-<script>
+{{#fullview}}
+<p class="text-center"><i class="fa fa-location-arrow"></i> <a href="https://kurzlinks.mebis.bayern.de/home?link={{urlshort}}">{{#str}} urlshortlabel, block_qr {{/str}}</a></p>
+{{/fullview}}
+{{#js}}
 let qrcode{{id}} = new QRCode({
   content: "{{qrcodecontent}}",
   color: "#000000",
@@ -76,5 +86,5 @@ let qrcode{{id}} = new QRCode({
 });
 let svg{{id}} = qrcode{{id}}.svg();
 document.getElementById("container{{id}}").innerHTML = svg{{id}};
-</script>
+{{/js}}
 
