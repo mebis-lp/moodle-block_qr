@@ -76,14 +76,23 @@ class block_qr_edit_form extends block_edit_form {
         // Section header title.
         $mform->addElement('header', 'widthheader', get_string('codecontent', 'block_qr'));
         // Add options for the creation of the qr code.
-        $options = array(
+        $options = [
             'currenturl' => get_string('currenturl', 'block_qr'),
             'courseurl' => get_string('courseurl', 'block_qr'),
             'internalcontent' => get_string('internalcontent', 'block_qr'),
             'owncontent' => get_string('owncontent', 'block_qr'),
             'event' => get_string('event', 'block_qr'),
             'geolocation' => get_string('geolocation', 'block_qr')
-        );
+        ];
+        $courseid = $this->page->course->id;
+        if ($courseid == SITEID) {
+            foreach ($options as $key => $value) {
+                if ($key == "courseurl" || $key == "internalcontent") {
+                    unset($options[$key]);
+                }
+            }
+        }
+
         $selectoptions = $mform->addElement(
             'select',
             'config_options',
@@ -96,7 +105,7 @@ class block_qr_edit_form extends block_edit_form {
         $mform->addElement('text', 'config_courseurl', get_string('courseurl_label', 'block_qr'), 'size="40"');
         $mform->hideIf('config_courseurl', 'config_options', 'neq', 'courseurl');
         $mform->setType('config_courseurl', PARAM_TEXT);
-        // Selection for internal links.
+         // Selection for internal links.
         $mform->addElement(
             'select',
             'config_internal',
@@ -151,10 +160,10 @@ class block_qr_edit_form extends block_edit_form {
         $mform->addHelpButton('config_geolocation_lng', 'config_geolocation_lng', 'block_qr');
         $mform->hideIf('config_geolocation_lng', 'config_options', 'neq', 'geolocation');
         $mform->setType('config_geolocation_lng', PARAM_TEXT);
-        $linkoptions = array(
+        $linkoptions = [
             'nolink' => get_string('nolink', 'block_qr'),
             'osm' => get_string('osm', 'block_qr'),
-        );
+        ];
         $mform->addElement(
             'select',
             'config_link',
@@ -167,11 +176,14 @@ class block_qr_edit_form extends block_edit_form {
         // Section header title.
         $mform->addElement('header', 'widthheader', get_string('settings', 'block_qr'));
         // Settings.
-        $sizeoptions = array(
-            '150px' => get_string('small', 'block_qr'),
-            '200px' => get_string('medium', 'block_qr'),
-            '275px' => get_string('large', 'block_qr')
-        );
+        define('QR_SIZE_SMALL', '150px');
+        define('QR_SIZE_MEDIUM', '200px');
+        define('QR_SIZE_LARGE', '275px');
+        $sizeoptions = [
+            QR_SIZE_SMALL => get_string('small', 'block_qr'),
+            QR_SIZE_MEDIUM => get_string('medium', 'block_qr'),
+            QR_SIZE_LARGE => get_string('large', 'block_qr')
+        ];
         $selectsize = $mform->addElement(
             'select',
             'config_size',

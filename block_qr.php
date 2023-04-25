@@ -55,13 +55,6 @@ class block_qr extends block_base {
                 $context->cmid = null;
                 $context->sectionnum = optional_param('section', 0, PARAM_INT);
             }
-
-            if ($context->sectionnum > 0) {
-                $context->prevsectionnum = $context->sectionnum - 1;
-            }
-            if ($context->sectionnum < count($modinfo->get_section_info_all()) - 1) {
-                $context->nextsectionnum = $context->sectionnum + 1;
-            }
         }
 
         $format = core_courseformat\base::instance($context->courseid);
@@ -122,7 +115,6 @@ class block_qr extends block_base {
                         }
                         break;
                     case 'section':
-                        $section = null;
                         $sectioninfo = $modinfo->get_section_info($id);
                         if (!is_null($sectioninfo)) {
                             $configcontent = $sectioninfo->name;
@@ -135,7 +127,6 @@ class block_qr extends block_base {
                             }
                             $qrcodecontent = $format->get_view_url($id);
                             $anchor = 'section-' . $id;
-                            $section = $id;
                             $tooltip = $qrcodecontent;
                             $qrcodelink = $qrcodecontent;
                         }
