@@ -30,4 +30,3 @@ $plugin->version   = 2023042500;         // The current plugin version (Date: YY
 $plugin->requires  = 2022041200;         // Requires this Moodle version.
 $plugin->component = 'block_qr';         // Full name of the plugin (used for diagnostics).
 $plugin->maturity = MATURITY_ALPHA;      // This is considered as ready for production sites.
-

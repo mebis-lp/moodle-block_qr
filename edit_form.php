@@ -190,10 +190,16 @@ class block_qr_edit_form extends block_edit_form {
             get_string('config_size_label', 'block_qr'),
             $sizeoptions,
         );
-        $selectsize->setSelected('275px');
+        $selectsize->setSelected(QR_SIZE_LARGE);
         $mform->setType('config_size', PARAM_TEXT);
     }
-    // Validation of start date and end date in calendar fields.
+
+    /**
+     * Validation of start date and end date in calendar fields.
+     * @param array $data submitted form fields.
+     * @param array $files not used here.
+     * @return array errors occuring during validation.
+     */
     public function validation($data, $files) {
         $errors = parent::validation($data, $files);
         if ($data['config_event_start'] > $data['config_event_end']) {

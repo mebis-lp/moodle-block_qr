@@ -23,10 +23,19 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class block_qr extends block_base {
-    public function init() {
+
+    /**
+     * Sets the block title.
+     */
+    public function init(): void {
         $this->title = get_string('pluginname', 'block_qr');
     }
 
+     /**
+      * Returns the contents.
+      *
+      * @return stdClass
+      */
     public function get_content() {
         global $USER, $OUTPUT, $CFG;
         if ($this->content !== null) {
@@ -71,6 +80,7 @@ class block_qr extends block_base {
         $calendarstart = null;
         $calendarend = null;
         $fullview = false;
+        $svgsize = null;
         switch ($this->config->options ?? 0) {
             case 'currenturl':
                 $qrcodecontent = $this->page->url;
@@ -228,7 +238,9 @@ class block_qr extends block_base {
 
         $urlshort = urlencode($qrcodelink);
 
-        $svgsize = isset($this->config->size) ? $this->config->size : '275px';
+        if (isset($this->config->size)) {
+            $svgsize = $this->config->size;
+        }
 
         // Use for multiple id for multiple QR codes on one page.
         $blockid = $this->context->id;
