@@ -51,6 +51,7 @@ $string['latitude_error'] = 'Only decimal values between -90 and 90 are permitte
 $string['longitude'] = 'Longitude';
 $string['longitude_error'] = 'Only decimal values between -180 and 180 are permitted. Example: 10.49184';
 $string['medium'] = 'Medium';
+$string['nocontent'] = 'No content found';
 $string['nolink'] = 'No Link';
 $string['osm'] = 'OpenStreetMap';
 $string['owncontent'] = 'Text/URL';
