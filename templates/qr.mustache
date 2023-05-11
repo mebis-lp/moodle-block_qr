@@ -1,4 +1,4 @@
-{{ !
+{{!
 This file is part of Moodle - http://moodle.org/
 
 Moodle is free software: you can redistribute it and/or modify
@@ -13,8 +13,8 @@ GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
 along with Moodle.  If not, see <http://www.gnu.org/licenses/>. }}
-{{ !
-    @template block_qr/edit
+{{!
+    @template block_qr/qr
 
     Classes required for JS:
     * none
@@ -43,73 +43,74 @@ along with Moodle.  If not, see <http://www.gnu.org/licenses/>. }}
       "geocoordinates": "48.1698,10.1936",
       "qrcodecontent": "test123",
       "id": "0"
-    } }}
+    }
+}}
 {{#qrurl}}
     <a href="{{qrcodelink}}">
-    {{/qrurl}}
-    <div id="container{{id}}" style="width: {{size}};max-width:100%;margin: 0 auto;" data-toggle="tooltip" data-html="true" data-placement="auto" title="{{tooltip}}">{{^qrcodecontent}}
-        {{#str}}
-            nocontent, block_qr
-        {{/str}}
-    {{/qrcodecontent}}
-</div>
+{{/qrurl}}
+    <div id="container{{id}}" style="width: {{size}}; max-width: 100%; margin: 0 auto;" data-toggle="tooltip"
+         data-html="true" data-placement="auto" title="{{tooltip}}">
+        {{^qrcodecontent}}
+            {{#str}} nocontent, block_qr {{/str}}
+        {{/qrcodecontent}}
+    </div>
 {{#qrurl}}
-</a>{{/qrurl}}<hr>
-{{^calendar}}<p class="text-center">{{message}}<br></p>
+    </a>
+{{/qrurl}}
+<hr>
+{{^calendar}}
+    <p class="text-center">{{message}}<br></p>
 {{/calendar}}
 {{#calendar}}
     <p class="text-center">
         {{#calendarsummary}}
             {{calendarsummary}}<br>
-            {{/calendarsummary}}
-            {{#calendarlocation}}
-                <i class="fa fa-map-marker"></i>
-                {{calendarlocation}}</li>
-            <br>
-            {{/calendarlocation}}
-            <i class="fa fa-calendar"></i>
-            {{calendarstart}}{{calendarend}}
-        </p>
-    {{/calendar}}
-
-    {{#geocoordinates}}
-        <p class="text-center">
+        {{/calendarsummary}}
+        {{#calendarlocation}}
             <i class="fa fa-map-marker"></i>
-            {{#qrurl}}
-                <a href="{{qrcodelink}}">
-                {{/qrurl}}
-                {{geocoordinates}}
-                {{#qrurl}}
-                </a>
-            {{/qrurl}}
-        </p>
-    {{/geocoordinates}}
-    {{#qrurl}}{{/qrurl}}
-    
-    {{#fullview}}
-        <p class="text-center">
-            <i class="fa fa-location-arrow"></i>
-            <a href="https://kurzlinks.mebis.bayern.de/home?link={{urlshort}}">
-                {{#str}}
-                    urlshortlabel, block_qr
-                {{/str}}
+            {{calendarlocation}}
+            <br>
+        {{/calendarlocation}}
+        <i class="fa fa-calendar"></i>
+        {{calendarstart}}{{calendarend}}
+    </p>
+{{/calendar}}
+
+{{#geocoordinates}}
+    <p class="text-center">
+        <i class="fa fa-map-marker"></i>
+        {{#qrurl}}
+            <a href="{{qrcodelink}}">
+        {{/qrurl}}
+        {{geocoordinates}}
+        {{#qrurl}}
             </a>
-        </p>
-    {{/fullview}}
-    {{#qrcodecontent}}
+        {{/qrurl}}
+    </p>
+{{/geocoordinates}}
+
+{{#fullview}}
+    <p class="text-center">
+        <i class="fa fa-location-arrow"></i>
+        <a href="https://kurzlinks.mebis.bayern.de/home?link={{urlshort}}">
+        {{#str}}
+            urlshortlabel, block_qr
+        {{/str}}
+        </a>
+    </p>
+{{/fullview}}
+{{#qrcodecontent}}
     <script src="{{javascript}}"></script>
-        {{#js}}
-            let qrcode{{id}}
-            = new QRCode({
-              content: "{{qrcodecontent}}",
-              color: "#000000",
-              background: "#ffffff",
-              ecl: "M", // Error correction level (L, M, H, Q).
-              container: "svg-viewbox", // Responsive use.
-              join: true // Crisp rendering and 4-5x reduced file size.
+    {{#js}}
+        let qrcode{{id}} = new QRCode({
+                content: "{{qrcodecontent}}",
+                color: "#000000",
+                background: "#ffffff",
+                ecl: "M", // Error correction level (L, M, H, Q).
+                container: "svg-viewbox", // Responsive use.
+                join: true // Crisp rendering and 4-5x reduced file size.
             });
-            let svg{{id}}
-            = qrcode{{id}}.svg();
-            document.getElementById("container{{id}}").innerHTML = svg{{id}};
-        {{/js}}
-    {{/qrcodecontent}}
+        let svg{{id}} = qrcode{{id}}.svg();
+        document.getElementById("container{{id}}").innerHTML = svg{{id}};
+    {{/js}}
+{{/qrcodecontent}}
