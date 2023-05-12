@@ -70,7 +70,6 @@ class block_qr extends block_base {
 
         $configcontent = null;
         $qrcodecontent = null;
-        $tooltip = null;
         $qrurl = false;
         $qrcodelink = null;
         $geocoordinates = null;
@@ -83,9 +82,8 @@ class block_qr extends block_base {
         $svgsize = null;
         switch ($this->config->options ?? 0) {
             case 'currenturl':
-                $qrcodecontent = $this->page->url;
+                $qrcodecontent = htmlspecialchars_decode($this->page->url);
                 $configcontent = get_string('thisurl', 'block_qr');
-                $tooltip = $qrcodecontent;
                 $qrcodelink = $qrcodecontent;
                 $qrurl = true;
                 $calendar = false;
@@ -97,8 +95,7 @@ class block_qr extends block_base {
                         ['id' => $context->courseid]
                     )
                 )->out();
-                $configcontent = $this->config->courseurl;
-                $tooltip = $qrcodecontent;
+                $configcontent = htmlspecialchars_decode($this->config->courseurl);
                 $qrcodelink = $qrcodecontent;
                 $qrurl = true;
                 $calendar = false;
@@ -113,14 +110,12 @@ class block_qr extends block_base {
                         if (!is_null($module->get_url())) {
                             $configcontent = $module->name;
                             $qrcodecontent = $module->url;
-                            $tooltip = $qrcodecontent;
                             $qrcodelink = $qrcodecontent;
                         } else {
                             $configcontent = $module->name;
-                            $qrcodecontent = $format->get_view_url($module->sectionnum);
+                            $qrcodecontent = htmlspecialchars_decode($format->get_view_url($module->sectionnum));
                             $anchor = 'module-' . $id;
                             $qrcodecontent->set_anchor($anchor);
-                            $tooltip = $qrcodecontent;
                             $qrcodelink = $qrcodecontent;
                         }
                         break;
@@ -135,9 +130,8 @@ class block_qr extends block_base {
                                     $configcontent = get_string('section') . ' ' . $id;
                                 }
                             }
-                            $qrcodecontent = $format->get_view_url($id);
+                            $qrcodecontent = htmlspecialchars_decode($format->get_view_url($id));
                             $anchor = 'section-' . $id;
-                            $tooltip = $qrcodecontent;
                             $qrcodelink = $qrcodecontent;
                         }
                         break;
@@ -148,7 +142,6 @@ class block_qr extends block_base {
                 $configcontent = "";
                 $qrcodecontent = $url;
                 $qrcodelink = $qrcodecontent;
-                $tooltip = $qrcodecontent;
                 if (filter_var($qrcodecontent, FILTER_VALIDATE_URL) === false) {
                     $qrurl = false;
                 } else {
@@ -169,16 +162,10 @@ class block_qr extends block_base {
                         $timeformat = get_string('strftimedatetime', 'block_qr');
                         $qrcodecontent .= "DTSTART:" . date('Ymd\THis', $this->config->event_start) . '\n';
                         $qrcodecontent .= "DTEND:" . date('Ymd\THis', $this->config->event_end) . '\n';
-                        $tooltip = $this->config->event_summary . "<br>";
-                        $tooltip .= $this->config->event_location . "<br>";
                         if (date('ymd', $this->config->event_end) != date('ymd', $this->config->event_start)) {
-                            $tooltip .= date($dateformat, $this->config->event_start) . " - ";
-                            $tooltip .= date($dateformat, $this->config->event_end);
                             $calendarstart = date($dateformat, $this->config->event_start) . " - ";
                             $calendarend = date($dateformat, $this->config->event_end);
                         } else {
-                            $tooltip .= date($dateformat, $this->config->event_start) . " - ";
-                            $tooltip .= date($timeformat, $this->config->event_end);
                             $calendarstart = date($dateformat, $this->config->event_start) . " - ";
                             $calendarend = date($timeformat, $this->config->event_end);
                         }
@@ -188,15 +175,10 @@ class block_qr extends block_base {
                         $timeformat = get_string('strftimedatetime', 'block_qr');
                         $qrcodecontent .= "DTSTART:" . date('Ymd', $this->config->event_start) . '\n';
                         $qrcodecontent .= "DTEND:" . date('Ymd', $this->config->event_end) . '\n';
-                        $tooltip = $this->config->event_summary . "<br>";
-                        $tooltip .= $this->config->event_location . "<br>";
                         if (date('ymd', $this->config->event_end) != date('ymd', $this->config->event_start)) {
-                            $tooltip .= date($dateformat, $this->config->event_start) . " - ";
-                            $tooltip .= date($dateformat, $this->config->event_end);
                             $calendarstart = date($dateformat, $this->config->event_start) . " - ";
                             $calendarend = date($dateformat, $this->config->event_end);
                         } else {
-                            $tooltip .= date($dateformat, $this->config->event_start);
                             $calendarstart = date($dateformat, $this->config->event_start);
                             $calendarend = null;
                         }
@@ -208,13 +190,13 @@ class block_qr extends block_base {
                 $calendarlocation = $this->config->event_location;
                 $qrurl = false;
                 $calendar = true;
+                $fullview = false;
                 break;
 
             case 'geolocation':
                 $qrcodecontent = "geo:" . $this->config->geolocation_br . "," . $this->config->geolocation_lng;
                 $configcontent = get_string('geolocation', 'block_qr');
                 $geocoordinates = $this->config->geolocation_br . ', ' . $this->config->geolocation_lng;
-                $tooltip = $qrcodecontent;
                 $calendar = false;
                 switch ($this->config->link) {
                     case 'nolink':
@@ -236,7 +218,7 @@ class block_qr extends block_base {
             $fullview = true;
         }
 
-        $urlshort = urlencode($qrcodelink);
+        $urlshort = $qrcodelink;
 
         if (isset($this->config->size)) {
             $svgsize = $this->config->size;
@@ -253,7 +235,6 @@ class block_qr extends block_base {
             'javascript' => $javascripturl,
             'size' => $svgsize,
             'id' => $blockid,
-            'tooltip' => $tooltip,
             'geocoordinates' => $geocoordinates,
             'qrurl' => $qrurl,
             'calendar' => $calendar,
