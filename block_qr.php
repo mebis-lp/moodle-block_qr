@@ -68,7 +68,7 @@ class block_qr extends block_base {
 
         $format = core_courseformat\base::instance($context->courseid);
 
-        $configcontent = null;
+        $description = null;
         $qrcodecontent = null;
         $qrurl = false;
         $qrcodelink = null;
@@ -83,7 +83,7 @@ class block_qr extends block_base {
         switch ($this->config->options ?? 0) {
             case 'currenturl':
                 $qrcodecontent = $this->page->url->out(false);
-                $configcontent = get_string('thisurl', 'block_qr');
+                $description = get_string('thisurl', 'block_qr');
                 $qrcodelink = $qrcodecontent;
                 $qrurl = true;
                 $calendar = false;
@@ -96,6 +96,7 @@ class block_qr extends block_base {
                     )
                 )->out(false);
                 $qrcodelink = $qrcodecontent;
+                $description = $this->config->courseurldesc;
                 $qrurl = true;
                 $calendar = false;
                 break;
@@ -107,11 +108,11 @@ class block_qr extends block_base {
                     case 'cmid':
                         $module = $modinfo->get_cm($id);
                         if (!is_null($module->get_url())) {
-                            $configcontent = $module->name;
+                            $description = $module->name;
                             $qrcodecontent = $module->url;
                             $qrcodelink = $qrcodecontent;
                         } else {
-                            $configcontent = $module->name;
+                            $description = $module->name;
                             $qrcodecontent = $format->get_view_url($module->sectionnum)->out(false);
                             $anchor = 'module-' . $id;
                             $qrcodecontent->set_anchor($anchor);
@@ -121,12 +122,12 @@ class block_qr extends block_base {
                     case 'section':
                         $sectioninfo = $modinfo->get_section_info($id);
                         if (!is_null($sectioninfo)) {
-                            $configcontent = $sectioninfo->name;
+                            $description = $sectioninfo->name;
                             if (empty($name)) {
                                 if ($id == 0) {
-                                    $configcontent = get_string('general');
+                                    $description = get_string('general');
                                 } else {
-                                    $configcontent = get_string('section') . ' ' . $id;
+                                    $description = get_string('section') . ' ' . $id;
                                 }
                             }
                             
@@ -139,7 +140,7 @@ class block_qr extends block_base {
                 break;
             case 'owncontent':
                 $url = $this->config->owncontent;
-                $configcontent = "";
+                $description = "";
                 $qrcodecontent = $url;
                 $qrcodelink = $qrcodecontent;
                 if (filter_var($qrcodecontent, FILTER_VALIDATE_URL) === false) {
@@ -185,7 +186,7 @@ class block_qr extends block_base {
                 }
                 $qrcodecontent .= "END:VEVENT" . '\n';
                 $qrcodecontent .= "END:VCALENDAR" . '\n';
-                $configcontent = get_string('event', 'block_qr');
+                $description = get_string('event', 'block_qr');
                 $calendarsummary = $this->config->event_summary;
                 $calendarlocation = $this->config->event_location;
                 $qrurl = false;
@@ -195,7 +196,7 @@ class block_qr extends block_base {
 
             case 'geolocation':
                 $qrcodecontent = "geo:" . $this->config->geolocation_br . "," . $this->config->geolocation_lng;
-                $configcontent = get_string('geolocation', 'block_qr');
+                $description = get_string('geolocation', 'block_qr');
                 $geocoordinates = $this->config->geolocation_br . ', ' . $this->config->geolocation_lng;
                 $calendar = false;
                 switch ($this->config->link) {
@@ -231,7 +232,7 @@ class block_qr extends block_base {
 
         $data = [
             'qrcodecontent' => $qrcodecontent,
-            'message' => $configcontent,
+            'description' => $description,
             'javascript' => $javascripturl,
             'size' => $svgsize,
             'id' => $blockid,
