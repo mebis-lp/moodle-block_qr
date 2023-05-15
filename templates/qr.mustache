@@ -32,8 +32,7 @@ along with Moodle.  If not, see <http://www.gnu.org/licenses/>. }}
         "urlshort": "https://moodle.org",
       },
       "size": "275px",
-      "tooltip": "This is a tooltip",
-      "message": "This is a message",
+      "description": "This is a description",
       "calendar": {
         "calendarsummary": "Meeting",
         "calendarlocation": "Munich",
@@ -46,10 +45,9 @@ along with Moodle.  If not, see <http://www.gnu.org/licenses/>. }}
     }
 }}
 {{#qrurl}}
-    <a href="{{qrcodelink}}">
+    <a href="{{{qrcodelink}}}">
 {{/qrurl}}
-    <div id="container{{id}}" style="width: {{size}}; max-width: 100%; margin: 0 auto;" data-toggle="tooltip"
-         data-html="true" data-placement="auto" title="{{tooltip}}">
+    <div id="container{{id}}" style="width: {{size}}; max-width: 100%; margin: 0 auto;">
         {{^qrcodecontent}}
             {{#str}} nocontent, block_qr {{/str}}
         {{/qrcodecontent}}
@@ -59,7 +57,7 @@ along with Moodle.  If not, see <http://www.gnu.org/licenses/>. }}
 {{/qrurl}}
 <hr>
 {{^calendar}}
-    <p class="text-center">{{message}}<br></p>
+    <p class="text-center">{{description}}<br></p>
 {{/calendar}}
 {{#calendar}}
     <p class="text-center">
@@ -80,7 +78,7 @@ along with Moodle.  If not, see <http://www.gnu.org/licenses/>. }}
     <p class="text-center">
         <i class="fa fa-map-marker"></i>
         {{#qrurl}}
-            <a href="{{qrcodelink}}">
+            <a href="{{{qrcodelink}}}">
         {{/qrurl}}
         {{geocoordinates}}
         {{#qrurl}}
@@ -102,14 +100,15 @@ along with Moodle.  If not, see <http://www.gnu.org/licenses/>. }}
 {{#qrcodecontent}}
     <script src="{{javascript}}"></script>
     {{#js}}
-        let qrcode{{id}} = new QRCode({
-                content: "{{qrcodecontent}}",
-                color: "#000000",
-                background: "#ffffff",
-                ecl: "M", // Error correction level (L, M, H, Q).
-                container: "svg-viewbox", // Responsive use.
-                join: true // Crisp rendering and 4-5x reduced file size.
-            });
+        let config{{id}} = {
+            content: "{{{qrcodecontent}}}",
+            color: "#000000",
+            background: "#ffffff",
+            ecl: "M", // Error correction level (L, M, H, Q).
+            container: "svg-viewbox", // Responsive use.
+            join: true // Crisp rendering and 4-5x reduced file size.
+        };
+        let qrcode{{id}} = new QRCode(config{{id}});
         let svg{{id}} = qrcode{{id}}.svg();
         document.getElementById("container{{id}}").innerHTML = svg{{id}};
     {{/js}}
