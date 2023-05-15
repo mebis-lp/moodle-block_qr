@@ -141,7 +141,7 @@ class block_qr extends block_base {
                                     $description = get_string('section') . ' ' . $id;
                                 }
                             }
-                            
+
                             $qrcodecontent = $format->get_view_url($id)->out(false);
                             $anchor = 'section-' . $id;
                             $qrcodelink = $qrcodecontent;
