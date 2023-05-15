@@ -31,6 +31,16 @@ class block_qr extends block_base {
         $this->title = get_string('pluginname', 'block_qr');
     }
 
+    /**
+     * Create default config.
+     */
+    public function instance_create(): bool {
+        $this->config = new stdClass();
+        $this->config->options = 'currenturl';
+        $this->instance_config_save($this->config);
+        return true;
+    }
+
      /**
       * Returns the contents.
       *
@@ -80,7 +90,8 @@ class block_qr extends block_base {
         $calendarend = null;
         $fullview = false;
         $svgsize = null;
-        switch ($this->config->options ?? 0) {
+
+        switch ($this->config->options) {
             case 'currenturl':
                 $qrcodecontent = $this->page->url->out(false);
                 $description = get_string('thisurl', 'block_qr');
