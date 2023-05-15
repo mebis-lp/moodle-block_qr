@@ -101,7 +101,7 @@ along with Moodle.  If not, see <http://www.gnu.org/licenses/>. }}
 {{#qrcodecontent}}
     <script src="{{javascript}}"></script>   
     {{#js}}
-        let config = {
+        let config{{id}} = {
             content: "{{{qrcodecontent}}}",
             color: "#000000",
             background: "#ffffff",
@@ -109,7 +109,7 @@ along with Moodle.  If not, see <http://www.gnu.org/licenses/>. }}
             container: "svg-viewbox", // Responsive use.
             join: true // Crisp rendering and 4-5x reduced file size.
         };
-        let qrcode{{id}} = new QRCode(config);
+        let qrcode{{id}} = new QRCode(config{{id}});
         let svg{{id}} = qrcode{{id}}.svg();
         document.getElementById("container{{id}}").innerHTML = svg{{id}};
     {{/js}}
