@@ -37,7 +37,7 @@ class block_qr extends block_base {
       * @return stdClass
       */
     public function get_content() {
-        global $USER, $OUTPUT, $CFG;
+        global $CFG, $OUTPUT, $USER;
         if ($this->content !== null) {
             return $this->content;
         }
@@ -82,7 +82,7 @@ class block_qr extends block_base {
         $svgsize = null;
         switch ($this->config->options ?? 0) {
             case 'currenturl':
-                $qrcodecontent = htmlspecialchars_decode($this->page->url);
+                $qrcodecontent = $this->page->url->out(false);
                 $configcontent = get_string('thisurl', 'block_qr');
                 $qrcodelink = $qrcodecontent;
                 $qrurl = true;
@@ -94,8 +94,7 @@ class block_qr extends block_base {
                     '/course/view.php',
                         ['id' => $context->courseid]
                     )
-                )->out();
-                $configcontent = htmlspecialchars_decode($this->config->courseurl);
+                )->out(false);
                 $qrcodelink = $qrcodecontent;
                 $qrurl = true;
                 $calendar = false;
@@ -113,7 +112,7 @@ class block_qr extends block_base {
                             $qrcodelink = $qrcodecontent;
                         } else {
                             $configcontent = $module->name;
-                            $qrcodecontent = htmlspecialchars_decode($format->get_view_url($module->sectionnum));
+                            $qrcodecontent = $format->get_view_url($module->sectionnum)->out(false);
                             $anchor = 'module-' . $id;
                             $qrcodecontent->set_anchor($anchor);
                             $qrcodelink = $qrcodecontent;
@@ -130,7 +129,8 @@ class block_qr extends block_base {
                                     $configcontent = get_string('section') . ' ' . $id;
                                 }
                             }
-                            $qrcodecontent = htmlspecialchars_decode($format->get_view_url($id));
+                            
+                            $qrcodecontent = $format->get_view_url($id)->out(false);
                             $anchor = 'section-' . $id;
                             $qrcodelink = $qrcodecontent;
                         }
@@ -218,7 +218,7 @@ class block_qr extends block_base {
             $fullview = true;
         }
 
-        $urlshort = $qrcodelink;
+        $urlshort = urlencode($qrcodelink);
 
         if (isset($this->config->size)) {
             $svgsize = $this->config->size;
