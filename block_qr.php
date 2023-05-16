@@ -32,6 +32,15 @@ class block_qr extends block_base {
     }
 
     /**
+     * Allow the block to have a configuration page
+     *
+     * @return bool
+     */
+    public function has_config(): bool {
+        return true;
+    }
+
+    /**
      * Create default config.
      */
     public function instance_create(): bool {
@@ -230,8 +239,19 @@ class block_qr extends block_base {
             $fullview = true;
         }
 
-        $urlshort = urlencode($qrcodelink);
+        // Short link url in admin settings.
+        $shortlinkservice = get_config('block_qr', 'shortlinkservice');
+        $urlparameterbefore = get_config('block_qr', 'urlparameterbefore');
+        $urlparameterafter = get_config('block_qr', 'urlparameterafter');
 
+        // Short link service.
+        if (!empty($urlparameterbefore) || !empty($urlparameterafter)) {
+            $urlshort = $urlparameterbefore . urlencode($qrcodelink) . $urlparameterafter;
+        } else {
+            $urlshort = null;
+        }
+
+        // Size of QR code.
         if (isset($this->config->size)) {
             $svgsize = $this->config->size;
         }
@@ -256,14 +276,12 @@ class block_qr extends block_base {
             'calendarend' => $calendarend,
             'qrcodelink' => $qrcodelink,
             'urlshort' => $urlshort,
-            'fullview' => $fullview
+            'fullview' => $fullview,
+            'shortlinkservice' => $shortlinkservice
         ];
         $this->content->text = $OUTPUT->render_from_template('block_qr/qr', $data);
         return $this->content;
     }
-
-
-
 
     /**
      * Locations where block can be displayed.

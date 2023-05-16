@@ -88,14 +88,16 @@
 {{/geocoordinates}}
 
 {{#fullview}}
+{{#shortlinkservice}}
     <p class="text-center">
         <i class="fa fa-location-arrow"></i>
-        <a href="https://kurzlinks.mebis.bycs.de/home?link={{urlshort}}">
+        <a href="{{shortlinkservice}}{{urlshort}}">
         {{#str}}
             urlshortlabel, block_qr
         {{/str}}
         </a>
     </p>
+{{/shortlinkservice}}
 {{/fullview}}
 {{#qrcodecontent}}
     <script src="{{javascript}}"></script>
