@@ -88,16 +88,16 @@
 {{/geocoordinates}}
 
 {{#fullview}}
-{{#shortlinkservice}}
+{{#configshortlink}}
     <p class="text-center">
         <i class="fa fa-location-arrow"></i>
-        <a href="{{shortlinkservice}}{{urlshort}}">
+        <a href="{{urlshort}}">
         {{#str}}
             urlshortlabel, block_qr
         {{/str}}
         </a>
     </p>
-{{/shortlinkservice}}
+{{/configshortlink}}
 {{/fullview}}
 {{#qrcodecontent}}
     <script src="{{javascript}}"></script>

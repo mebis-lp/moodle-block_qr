@@ -240,15 +240,13 @@ class block_qr extends block_base {
         }
 
         // Short link url in admin settings.
-        $shortlinkservice = get_config('block_qr', 'shortlinkservice');
-        $urlparameterbefore = get_config('block_qr', 'urlparameterbefore');
-        $urlparameterafter = get_config('block_qr', 'urlparameterafter');
+        $configshortlink = get_config('block_qr', 'configshortlink');
 
         // Short link service.
-        if (!empty($urlparameterbefore) || !empty($urlparameterafter)) {
-            $urlshort = $urlparameterbefore . urlencode($qrcodelink) . $urlparameterafter;
-        } else {
+        if (empty($configshortlink)) {
             $urlshort = null;
+        } else {
+            $urlshort = str_replace('SHORTLINK', urlencode($qrcodelink), $configshortlink);
         }
 
         // Size of QR code.
@@ -277,7 +275,7 @@ class block_qr extends block_base {
             'qrcodelink' => $qrcodelink,
             'urlshort' => $urlshort,
             'fullview' => $fullview,
-            'shortlinkservice' => $shortlinkservice
+            'configshortlink' => $configshortlink
         ];
         $this->content->text = $OUTPUT->render_from_template('block_qr/qr', $data);
         return $this->content;

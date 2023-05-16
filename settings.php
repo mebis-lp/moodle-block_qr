@@ -27,23 +27,9 @@ defined('MOODLE_INTERNAL') || die();
 
 if ($ADMIN->fulltree) {
     $settings->add(new admin_setting_configtext(
-        'block_qr/shortlinkservice',
+        'block_qr/configshortlink',
         new lang_string('shortlinkservice', 'block_qr'),
         new lang_string('shortlinkservice_description', 'block_qr'),
-        '',
-        PARAM_TEXT)
-    );
-    $settings->add(new admin_setting_configtext(
-        'block_qr/urlparameterbefore',
-        new lang_string('urlparameterbefore', 'block_qr'),
-        '',
-        '',
-        PARAM_TEXT)
-    );
-    $settings->add(new admin_setting_configtext(
-        'block_qr/urlparameterafter',
-        get_string('urlparameterafter', 'block_qr'),
-        new lang_string('shortlinkparameter_description', 'block_qr'),
         '',
         PARAM_TEXT)
     );
