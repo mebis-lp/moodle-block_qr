@@ -246,7 +246,8 @@ class block_qr extends block_base {
         if (empty($configshortlink)) {
             $urlshort = null;
         } else {
-            $urlshort = str_replace('SHORTLINK', urlencode($qrcodelink), $configshortlink);
+            $qrcodelink = urlencode($qrcodelink);
+            $urlshort = str_replace('SHORTLINK', $qrcodelink, $configshortlink);
         }
 
         // Size of QR code.
