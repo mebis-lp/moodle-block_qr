@@ -102,6 +102,7 @@
 {{#qrcodecontent}}
     <script src="{{javascript}}"></script>
     {{#js}}
+        if (typeof QRCode !== 'undefined') {
         let config{{id}} = {
             content: "{{{qrcodecontent}}}",
             color: "#000000",
@@ -114,5 +115,6 @@
         let qrcode{{id}} = new QRCode(config{{id}});
         let svg{{id}} = qrcode{{id}}.svg();
         document.getElementById("container{{id}}").innerHTML = svg{{id}};
+        }
     {{/js}}
 {{/qrcodecontent}}
