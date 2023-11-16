@@ -233,7 +233,7 @@ class block_qr extends block_base {
         }
 
         // Short link option only in edit mode.
-        if ($USER->editing == 0) {
+        if (empty($USER->editing)) {
             $fullview = false;
         } else {
             $fullview = true;
