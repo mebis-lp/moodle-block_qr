@@ -104,6 +104,7 @@ class block_qr_edit_form extends block_edit_form {
         // Course link.
         $mform->addElement('text', 'config_courseurldesc', get_string('courseurldesc_label', 'block_qr'), 'size="40"');
         $mform->hideIf('config_courseurldesc', 'config_options', 'neq', 'courseurl');
+        $mform->addHelpButton('config_courseurldesc', 'courseurldesc', 'block_qr');
         $mform->setType('config_courseurldesc', PARAM_TEXT);
          // Selection for internal links.
         $mform->addElement(
