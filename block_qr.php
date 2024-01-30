@@ -228,8 +228,19 @@ class block_qr extends block_base {
                         $qrcodelink .= $this->config->geolocation_br . '&mlon=' . $this->config->geolocation_lng;
                         $qrcodelink .= '#map=10/' . $this->config->geolocation_br . '/' . $this->config->geolocation_lng;
                         $qrurl = true;
-                        break;
                 }
+                break;
+
+            case 'wlan':
+                $qrcodecontent = "WIFI:T:" . $this->config->wlanauthentication;
+                $qrcodecontent .= ";S:" .  $this->config->wlanssid;
+                $qrcodecontent .= ";P:" . $this->config->wlanpasskey;
+                $qrcodecontent .= ";H:" . $this->config->wlanssidoptions . ";";
+                $description .= get_string('wlan', 'block_qr');
+                $wlanauthentication = $this->config->wlanauthentication;
+                $wlanssid = $this->config->wlanssid;
+                $wlanpasskey = $this->config->wlanpasskey;
+                break;
         }
 
         // Short link option only in edit mode.
@@ -276,7 +287,10 @@ class block_qr extends block_base {
             'qrcodelink' => $qrcodelink,
             'urlshort' => $urlshort,
             'fullview' => $fullview,
-            'configshortlink' => $configshortlink
+            'configshortlink' => $configshortlink,
+            'wlanauthentication' => $wlanauthentication,
+            'wlanssid' => $wlanssid,
+            'wlanpasskey' => $wlanpasskey,
         ];
         $this->content->text = $OUTPUT->render_from_template('block_qr/qr', $data);
         return $this->content;

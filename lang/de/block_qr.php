@@ -23,6 +23,7 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
+$string['config_wlanauthentication'] = 'Authentifizierung';
 $string['allday'] = 'Ganztägig';
 $string['codecontent'] = 'Inhalt';
 $string['config_geolocation_br'] = 'Format and zulässige Werte';
@@ -31,6 +32,7 @@ $string['config_geolocation_lng'] = 'Format and zulässige Werte';
 $string['config_geolocation_lng_help'] = 'Der Wert für den Längengrad ist auf ±180 begrenzt. Die Eingabe erfolgt als Dezimalgrad mit einem Dezimalpunkt. Beispiel: 10.49184';
 $string['config_link_label'] = 'Link zum Standort';
 $string['config_size_label'] = 'Größe des QR-Codes';
+$string['config_wlanssidoptions'] = 'versteckt';
 $string['courseurl'] = 'Link zu diesem Kurs';
 $string['courseurldesc_help'] = 'Hier kann zum Beispiel der Kursname oder der Einschreibeschlüssel eingetragen werden.';
 $string['courseurldesc_label'] = 'Beschreibung';
@@ -54,9 +56,11 @@ $string['longitude_error'] = 'Es sind nur Dezimalwerte zwischen -180 und 180 zul
 $string['medium'] = 'Mittel';
 $string['nocontent'] = 'Es wurde noch kein Inhalt konfiguriert. Klicken Sie auf das Zahnrad, um einen Inhalt für diesen QR-Block zu konfigurieren.';
 $string['nolink'] = 'Kein Link';
+$string['none'] = 'keine';
 $string['osm'] = 'OpenStreetMap';
 $string['owncontent'] = 'Text/Link';
 $string['owncontent_label'] = 'Text oder Link beginnend mit "https://" einfügen';
+$string['passkey_label'] = 'Passwort';
 $string['pluginname'] = 'QR-Code';
 $string['privacy:metadata'] = 'Der Latest QR-Code-Block zeigt nur Daten an und speichert selbst keine Daten.';
 $string['qr:addinstance'] = 'Einen neuen aktuellen QR-Code-Block hinzufügen';
@@ -65,6 +69,7 @@ $string['settings'] = 'Einstellungen';
 $string['shortlinkservice'] = 'URL des Kurzlinkdienstes';
 $string['shortlinkservice_description'] = 'Im Bearbeitungsmodus des Blocks kann ein Link zu einem Kurzlinkdienst angezeigt werden. Geben Sie dazu die URL des gewünschten Kurzlinkdienstes ein.</br>Wenn dieser eine direkte Weitergabe der zu verkürzenden URL unterstützt, können Sie hierfür optional die Variable SHORTLINK verwenden und in den Link einbinden.';
 $string['small'] = 'Klein';
+$string['ssid_label'] = 'SSID';
 $string['strftimedate'] = 'd.m.y, H:i';
 $string['strftimedateallday'] = 'd.m.y';
 $string['strftimedatetime'] = 'H:i';
@@ -72,3 +77,7 @@ $string['thisurl'] = 'Link zu dieser Seite';
 $string['urlparameterafter'] = 'URL-Parameter danach';
 $string['urlparameterbefore'] = 'URL-Parameter davor';
 $string['urlshortlabel'] = 'Kurzlink erstellen';
+$string['wlan'] = 'WLAN';
+$string['wep'] = 'WEP';
+$string['wpa'] = 'WPA/WPA2';
+$string['wlan_passkey_help'] = 'Veröffentlichen Sie keine Passwörter privater WLAN-Netzwerke!';
