@@ -23,7 +23,7 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-$string['config_wlanauthentication'] = 'Authentication';
+$string['config_wifiauthentication'] = 'Authentication';
 $string['allday'] = 'All day';
 $string['codecontent'] = 'Content';
 $string['config_geolocation_br'] = 'Format and permissible values';
@@ -32,8 +32,9 @@ $string['config_geolocation_lng'] = 'Format and permissible values';
 $string['config_geolocation_lng_help'] = 'The value for the longitude is limited to ±180. The entry is made as a decimal degree with a decimal point. Example: 10.49184';
 $string['config_link_label'] = 'Location link';
 $string['config_size_label'] = 'Size of the qr code';
-$string['config_wlanssidoptions'] = 'hidden';
+$string['config_wifissidoptions'] = 'hidden';
 $string['courseurl'] = 'Link to this course';
+$string['courseurldesc'] = 'description';
 $string['courseurldesc_help'] = 'For example, the course name or the enrolment key can be entered here.';
 $string['courseurldesc_label'] = 'Description';
 $string['currenturl'] = 'Link to the current page';
@@ -77,7 +78,8 @@ $string['thisurl'] = 'Link to this page';
 $string['urlparameterafter'] = 'URL parameters after';
 $string['urlparameterbefore'] = 'URL parameters before';
 $string['urlshortlabel'] = 'Create short link';
-$string['wlan'] = 'WiFi';
+$string['wifi'] = 'WiFi';
+$string['wifi_passkey'] = "handling passwords";
 $string['wep'] = 'WEP';
 $string['wpa'] = 'WPA/WPA2';
-$string['wlan_passkey_help'] = 'Do not publish passwords for private WiFi networks!';
+$string['wifi_passkey_help'] = 'Do not publish passwords for private WiFi networks!';

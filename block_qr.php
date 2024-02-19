@@ -231,15 +231,15 @@ class block_qr extends block_base {
                 }
                 break;
 
-            case 'wlan':
-                $qrcodecontent = "WIFI:T:" . $this->config->wlanauthentication;
-                $qrcodecontent .= ";S:" .  $this->config->wlanssid;
-                $qrcodecontent .= ";P:" . $this->config->wlanpasskey;
-                $qrcodecontent .= ";H:" . $this->config->wlanssidoptions . ";";
-                $description .= get_string('wlan', 'block_qr');
-                $wlanauthentication = $this->config->wlanauthentication;
-                $wlanssid = $this->config->wlanssid;
-                $wlanpasskey = $this->config->wlanpasskey;
+            case 'wifi':
+                $qrcodecontent = "WIFI:T:" . $this->config->wifiauthentication;
+                $qrcodecontent .= ";S:" .  $this->config->wifissid;
+                $qrcodecontent .= ";P:" . $this->config->wifipasskey;
+                $qrcodecontent .= ";H:" . $this->config->wifissidoptions . ";";
+                $description .= get_string('wifi', 'block_qr');
+                $wifiauthentication = $this->config->wifiauthentication;
+                $wifissid = $this->config->wifissid;
+                $wifipasskey = $this->config->wifipasskey;
                 break;
         }
 
@@ -288,9 +288,9 @@ class block_qr extends block_base {
             'urlshort' => $urlshort,
             'fullview' => $fullview,
             'configshortlink' => $configshortlink,
-            'wlanauthentication' => $wlanauthentication,
-            'wlanssid' => $wlanssid,
-            'wlanpasskey' => $wlanpasskey,
+            'wifiauthentication' => $wifiauthentication,
+            'wifissid' => $wifissid,
+            'wifipasskey' => $wifipasskey,
         ];
         $this->content->text = $OUTPUT->render_from_template('block_qr/qr', $data);
         return $this->content;

@@ -83,7 +83,7 @@ class block_qr_edit_form extends block_edit_form {
             'owncontent' => get_string('owncontent', 'block_qr'),
             'event' => get_string('event', 'block_qr'),
             'geolocation' => get_string('geolocation', 'block_qr'),
-            'wlan' => get_string('wlan', 'block_qr')
+            'wifi' => get_string('wifi', 'block_qr')
         ];
         $courseid = $this->page->course->id;
         if ($courseid == SITEID) {
@@ -175,10 +175,10 @@ class block_qr_edit_form extends block_edit_form {
         $mform->hideIf('config_link', 'config_options', 'neq', 'geolocation');
         $mform->setType('config_link', PARAM_TEXT);
 
-        // WLAN fields.
-        $mform->addElement('text', 'config_wlanssid', get_string('ssid_label', 'block_qr'), 'size="20"');
-        $mform->hideIf('config_wlanssid', 'config_options', 'neq', 'wlan');
-        $mform->setType('config_wlanssid', PARAM_NOTAGS);
+        // Wifi fields.
+        $mform->addElement('text', 'config_wifissid', get_string('ssid_label', 'block_qr'), 'size="20"');
+        $mform->hideIf('config_wifissid', 'config_options', 'neq', 'wifi');
+        $mform->setType('config_wifissid', PARAM_NOTAGS);
 
         $ssidoptions = [
             'false' => get_string('visible', 'block_qr'),
@@ -187,17 +187,17 @@ class block_qr_edit_form extends block_edit_form {
 
         $mform->addElement(
             'advcheckbox',
-            'config_wlanssidoptions',
-            get_string('config_wlanssidoptions', 'block_qr'),
+            'config_wifissidoptions',
+            get_string('config_wifissidoptions', 'block_qr'),
             '',
             $ssidoptions
         );
-        $mform->hideIf('config_wlanssidoptions', 'config_options', 'neq', 'wlan');
-        $mform->setType('config_wlanssidoptions', PARAM_TEXT);
-        $mform->addElement('text', 'config_wlanpasskey', get_string('passkey_label', 'block_qr'), 'size="20"');
-        $mform->addHelpButton('config_wlanpasskey', 'wlan_passkey', 'block_qr');
-        $mform->hideIf('config_wlanpasskey', 'config_options', 'neq', 'wlan');
-        $mform->setType('config_wlanpasskey', PARAM_NOTAGS);
+        $mform->hideIf('config_wifissidoptions', 'config_options', 'neq', 'wifi');
+        $mform->setType('config_wifissidoptions', PARAM_TEXT);
+        $mform->addElement('text', 'config_wifipasskey', get_string('passkey_label', 'block_qr'), 'size="20"');
+        $mform->addHelpButton('config_wifipasskey', 'wifi_passkey', 'block_qr');
+        $mform->hideIf('config_wifipasskey', 'config_options', 'neq', 'wifi');
+        $mform->setType('config_wifipasskey', PARAM_NOTAGS);
         $authenticationoptions = [
             'nopass' => get_string('none', 'block_qr'),
             'WEP' => get_string('wep', 'block_qr'),
@@ -205,12 +205,12 @@ class block_qr_edit_form extends block_edit_form {
         ];
         $mform->addElement(
             'select',
-            'config_wlanauthentication',
-            get_string('config_wlanauthentication', 'block_qr'),
+            'config_wifiauthentication',
+            get_string('config_wifiauthentication', 'block_qr'),
             $authenticationoptions,
         );
-        $mform->hideIf('config_wlanauthentication', 'config_options', 'neq', 'wlan');
-        $mform->setType('config_wlanauthentication', PARAM_TEXT);
+        $mform->hideIf('config_wifiauthentication', 'config_options', 'neq', 'wifi');
+        $mform->setType('config_wifiauthentication', PARAM_TEXT);
 
         // Section header title.
         $mform->addElement('header', 'widthheader', get_string('settings', 'block_qr'));
