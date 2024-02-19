@@ -83,7 +83,7 @@ class block_qr_edit_form extends block_edit_form {
             'owncontent' => get_string('owncontent', 'block_qr'),
             'event' => get_string('event', 'block_qr'),
             'geolocation' => get_string('geolocation', 'block_qr'),
-            'wifi' => get_string('wifi', 'block_qr')
+            'wifi' => get_string('wifi', 'block_qr'),
         ];
         $courseid = $this->page->course->id;
         if ($courseid == SITEID) {

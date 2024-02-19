@@ -23,7 +23,6 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-$string['config_wifiauthentication'] = 'Authentifizierung';
 $string['allday'] = 'Ganztägig';
 $string['codecontent'] = 'Inhalt';
 $string['config_geolocation_br'] = 'Format and zulässige Werte';
@@ -32,6 +31,7 @@ $string['config_geolocation_lng'] = 'Format and zulässige Werte';
 $string['config_geolocation_lng_help'] = 'Der Wert für den Längengrad ist auf ±180 begrenzt. Die Eingabe erfolgt als Dezimalgrad mit einem Dezimalpunkt. Beispiel: 10.49184';
 $string['config_link_label'] = 'Link zum Standort';
 $string['config_size_label'] = 'Größe des QR-Codes';
+$string['config_wifiauthentication'] = 'Authentifizierung';
 $string['config_wifissidoptions'] = 'versteckt';
 $string['courseurl'] = 'Link zu diesem Kurs';
 $string['courseurldesc'] = 'Beschreibung';
@@ -80,6 +80,6 @@ $string['urlparameterbefore'] = 'URL-Parameter davor';
 $string['urlshortlabel'] = 'Kurzlink erstellen';
 $string['wifi'] = 'WLAN';
 $string['wifi_passkey'] = "Umgang mit Passwörtern";
+$string['wifi_passkey_help'] = 'Veröffentlichen Sie keine Passwörter privater WLAN-Netzwerke!';
 $string['wep'] = 'WEP';
 $string['wpa'] = 'WPA/WPA2';
-$string['wifi_passkey_help'] = 'Veröffentlichen Sie keine Passwörter privater WLAN-Netzwerke!';
