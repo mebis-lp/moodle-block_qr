@@ -199,9 +199,10 @@ class block_qr_edit_form extends block_edit_form {
         $mform->hideIf('config_wifipasskey', 'config_options', 'neq', 'wifi');
         $mform->setType('config_wifipasskey', PARAM_NOTAGS);
         $authenticationoptions = [
-            'nopass' => get_string('none', 'block_qr'),
-            'WEP' => get_string('wep', 'block_qr'),
             'WPA/WPA2' => get_string('wpa', 'block_qr'),
+            'WEP' => get_string('wep', 'block_qr'),
+            'nopass' => get_string('none', 'block_qr'),
+
         ];
         $mform->addElement(
             'select',
