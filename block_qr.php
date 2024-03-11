@@ -99,6 +99,9 @@ class block_qr extends block_base {
         $calendarend = null;
         $fullview = false;
         $svgsize = null;
+        $wifiauthentication = null;
+        $wifissid = null;
+        $wifipasskey = null;
 
         switch ($this->config->options) {
             case 'currenturl':
@@ -228,8 +231,19 @@ class block_qr extends block_base {
                         $qrcodelink .= $this->config->geolocation_br . '&mlon=' . $this->config->geolocation_lng;
                         $qrcodelink .= '#map=10/' . $this->config->geolocation_br . '/' . $this->config->geolocation_lng;
                         $qrurl = true;
-                        break;
                 }
+                break;
+
+            case 'wifi':
+                $qrcodecontent = "WIFI:T:" . $this->config->wifiauthentication;
+                $qrcodecontent .= ";S:" .  $this->config->wifissid;
+                $qrcodecontent .= ";P:" . $this->config->wifipasskey;
+                $qrcodecontent .= ";H:" . $this->config->wifissidoptions . ";";
+                $description .= get_string('wifi', 'block_qr');
+                $wifiauthentication = $this->config->wifiauthentication;
+                $wifissid = $this->config->wifissid;
+                $wifipasskey = $this->config->wifipasskey;
+                break;
         }
 
         // Short link option only in edit mode.
@@ -246,8 +260,12 @@ class block_qr extends block_base {
         if (empty($configshortlink)) {
             $urlshort = null;
         } else {
-            $encodedqrcodelink = urlencode($qrcodelink);
-            $urlshort = str_replace('SHORTLINK', $encodedqrcodelink, $configshortlink);
+            if ($qrcodelink !== null) {
+                $encodedqrcodelink = urlencode($qrcodelink);
+                $urlshort = str_replace('SHORTLINK', $encodedqrcodelink, $configshortlink);
+            } else {
+                $urlshort = null;
+            }
         }
 
         // Size of QR code.
@@ -276,7 +294,10 @@ class block_qr extends block_base {
             'qrcodelink' => $qrcodelink,
             'urlshort' => $urlshort,
             'fullview' => $fullview,
-            'configshortlink' => $configshortlink
+            'configshortlink' => $configshortlink,
+            'wifiauthentication' => $wifiauthentication,
+            'wifissid' => $wifissid,
+            'wifipasskey' => $wifipasskey,
         ];
         $this->content->text = $OUTPUT->render_from_template('block_qr/qr', $data);
         return $this->content;
