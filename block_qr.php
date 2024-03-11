@@ -99,6 +99,9 @@ class block_qr extends block_base {
         $calendarend = null;
         $fullview = false;
         $svgsize = null;
+        $wifiauthentication = null;
+        $wifissid = null;
+        $wifipasskey = null;
 
         switch ($this->config->options) {
             case 'currenturl':
@@ -257,8 +260,12 @@ class block_qr extends block_base {
         if (empty($configshortlink)) {
             $urlshort = null;
         } else {
-            $encodedqrcodelink = urlencode($qrcodelink);
-            $urlshort = str_replace('SHORTLINK', $encodedqrcodelink, $configshortlink);
+            if ($qrcodelink !== null) {
+                $encodedqrcodelink = urlencode($qrcodelink);
+                $urlshort = str_replace('SHORTLINK', $encodedqrcodelink, $configshortlink);
+            } else {
+                $urlshort = null;
+            }
         }
 
         // Size of QR code.
