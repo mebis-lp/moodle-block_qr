@@ -47,19 +47,19 @@
 {{#qrurl}}
     <a href="{{{qrcodelink}}}">
 {{/qrurl}}
-<div id="container{{id}}" style="width: {{size}}; max-width: 100%; margin: 0 auto;">
-    {{^qrcodecontent}}
-        {{#str}} nocontent, block_qr {{/str}}
-    {{/qrcodecontent}}
-</div>
+    <div id="container{{id}}" style="width: {{size}}; max-width: 100%; margin: 0 auto;">
+        {{^qrcodecontent}}
+            {{#str}} nocontent, block_qr {{/str}}
+        {{/qrcodecontent}}
+    </div>
 {{#qrurl}}
     </a>
 {{/qrurl}}
-<div class="text-center">
-    <button class="btn btn-secondary" id="qrcodeModalButton{{id}}">{{#str}}
-            fullscreen, block_qr
-        {{/str}}</button>
-</div>
+    <div class="text-center">
+        <button class="btn btn-secondary" id="qrcodeModalButton{{id}}">{{#str}}
+                fullscreen, block_qr
+            {{/str}}</button>
+    </div>
 <hr>
 {{^calendar}}
     <p class="text-center">{{description}}<br></p>
@@ -108,15 +108,15 @@
 {{/wifissid}}
 
 {{#fullview}}
-    {{#configshortlink}}
-        <p class="text-center">
-            <i class="fa fa-location-arrow"></i>
-            <a href="{{urlshort}}" target="_blank">
-                {{#str}}
-                    urlshortlabel, block_qr
-                {{/str}}
-            </a>
-        </p>
+{{#configshortlink}}
+    <p class="text-center">
+        <i class="fa fa-location-arrow"></i>
+        <a href="{{urlshort}}" target="_blank">
+            {{#str}}
+                urlshortlabel, block_qr
+            {{/str}}
+        </a>
+    </p>
     {{/configshortlink}}
 {{/fullview}}
 <div style="width: 100%;text-align: center">
@@ -125,14 +125,14 @@
     <script src="{{javascript}}"></script>
     {{#js}}
         if (typeof QRCode !== 'undefined') {
-        // Configuration for QR Code
-        let config{{id}} = {
-        content: "{{{qrcodecontent}}}",
-        color: "#000000",
-        background: "#ffffff",
-        ecl: "M", // Error correction level (L, M, H, Q).
-        container: "svg-viewbox", // Responsive use.
-        join: true // Crisp rendering and 4-5x reduced file size.
+            // Configuration for QR Code
+            let config{{id}} = {
+            content: "{{{qrcodecontent}}}",
+            color: "#000000",
+            background: "#ffffff",
+            ecl: "M", // Error correction level (L, M, H, Q).
+            container: "svg-viewbox", // Responsive use.
+            join: true // Crisp rendering and 4-5x reduced file size.
         };
 
         let qrcode{{id}} = new QRCode(config{{id}});
