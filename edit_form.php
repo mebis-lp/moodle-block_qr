@@ -222,7 +222,7 @@ class block_qr_edit_form extends block_edit_form {
         $sizeoptions = [
             QR_SIZE_SMALL => get_string('small', 'block_qr'),
             QR_SIZE_MEDIUM => get_string('medium', 'block_qr'),
-            QR_SIZE_LARGE => get_string('large', 'block_qr')
+            QR_SIZE_LARGE => get_string('large', 'block_qr'),
         ];
         $selectsize = $mform->addElement(
             'select',
