@@ -45,6 +45,7 @@ $string['event_location'] = 'Location';
 $string['event_start'] = 'Start date';
 $string['event_summary'] = 'Title';
 $string['externalurl'] = 'URL';
+$string['fullscreen'] = 'Show in full screen';
 $string['geo'] = 'Geo';
 $string['geolocation'] = 'Geolocation (lat/lon)';
 $string['internalcontent'] = 'Link to a section or activity';

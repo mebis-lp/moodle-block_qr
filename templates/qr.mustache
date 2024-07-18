@@ -55,6 +55,11 @@
 {{#qrurl}}
     </a>
 {{/qrurl}}
+    <div class="text-center">
+        <button class="btn btn-secondary" id="qrcodeModalButton{{id}}">{{#str}}
+                fullscreen, block_qr
+            {{/str}}</button>
+    </div>
 <hr>
 {{^calendar}}
     <p class="text-center">{{description}}<br></p>
@@ -90,36 +95,38 @@
 {{#wifissid}}
     <p class="text-left">
         <b>
-        {{#str}}
-            ssid_label, block_qr
-        {{/str}}: </b>{{{wifissid}}}<br><b>
-        {{#str}}
-            config_wifiauthentication, block_qr
-        {{/str}}: </b> {{{wifiauthentication}}}<br><b>
-        {{#str}}
-            passkey_label, block_qr
-        {{/str}}: </b> {{{wifipasskey}}}<br>
+            {{#str}}
+                ssid_label, block_qr
+            {{/str}}: </b>{{{wifissid}}}<br><b>
+            {{#str}}
+                config_wifiauthentication, block_qr
+            {{/str}}: </b> {{{wifiauthentication}}}<br><b>
+            {{#str}}
+                passkey_label, block_qr
+            {{/str}}: </b> {{{wifipasskey}}}<br>
     </p>
 {{/wifissid}}
-
 
 {{#fullview}}
 {{#configshortlink}}
     <p class="text-center">
         <i class="fa fa-location-arrow"></i>
         <a href="{{urlshort}}" target="_blank">
-        {{#str}}
-            urlshortlabel, block_qr
-        {{/str}}
+            {{#str}}
+                urlshortlabel, block_qr
+            {{/str}}
         </a>
     </p>
-{{/configshortlink}}
+    {{/configshortlink}}
 {{/fullview}}
+<div style="width: 100%;text-align: center">
+</div>
 {{#qrcodecontent}}
     <script src="{{javascript}}"></script>
     {{#js}}
         if (typeof QRCode !== 'undefined') {
-        let config{{id}} = {
+            // Configuration for QR Code
+            let config{{id}} = {
             content: "{{{qrcodecontent}}}",
             color: "#000000",
             background: "#ffffff",
@@ -127,10 +134,17 @@
             container: "svg-viewbox", // Responsive use.
             join: true // Crisp rendering and 4-5x reduced file size.
         };
-        // eslint-disable-next-line no-undef
+
         let qrcode{{id}} = new QRCode(config{{id}});
         let svg{{id}} = qrcode{{id}}.svg();
         document.getElementById("container{{id}}").innerHTML = svg{{id}};
+        // Add event listener to button
+        document.getElementById("qrcodeModalButton{{id}}").addEventListener("click", () => {
+        // Creating the modal with the QR code content inside the button click event
+        require(['core/modal'], (MF) => {
+        MF.create({title: '{{{description}}}', body: svg{{id}}}).then((modal) => modal.show());
+        });
+        });
         }
     {{/js}}
 {{/qrcodecontent}}
