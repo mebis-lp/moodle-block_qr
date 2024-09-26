@@ -138,10 +138,16 @@ class block_qr extends block_base {
                             $description = $module->name;
                             $qrcodecontent = $format->get_view_url($module->sectionnum)->out(false);
                             $anchor = 'module-' . $id;
-                            $qrcodecontent->set_anchor($anchor);
+                            // Check whether $qrcodecontent is an object and the set_anchor method exists.
+                            if (is_object($qrcodecontent) && method_exists($qrcodecontent, 'set_anchor')) {
+                                $qrcodecontent->set_anchor($anchor);
+                            } else {
+                                // Error handling if set_anchor does not exist or $qrcodecontent is a string.
+                                $qrcodecontent = (string)$qrcodecontent . '#' . $anchor;
+                            }
                             $qrcodelink = $qrcodecontent;
                         }
-                        break;
+                    break;
                     case 'section':
                         $sectioninfo = $modinfo->get_section_info($id);
                         if (!is_null($sectioninfo)) {
