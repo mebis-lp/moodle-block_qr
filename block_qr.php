@@ -105,7 +105,7 @@ class block_qr extends block_base {
 
         switch ($this->config->options) {
             case 'currenturl':
-                $qrcodecontent = $this->page->url->out(false);
+                $qrcodecontent = $this->page->url;
                 $description = get_string('thisurl', 'block_qr');
                 $qrcodelink = $qrcodecontent;
                 $qrurl = true;
@@ -117,7 +117,7 @@ class block_qr extends block_base {
                     '/course/view.php',
                         ['id' => $context->courseid]
                     )
-                )->out(false);
+                );
                 $qrcodelink = $qrcodecontent;
                 $description = $this->config->courseurldesc;
                 $qrurl = true;
@@ -136,12 +136,12 @@ class block_qr extends block_base {
                             $qrcodelink = $qrcodecontent;
                         } else {
                             $description = $module->name;
-                            $qrcodecontent = $format->get_view_url($module->sectionnum)->out(false);
+                            $qrcodecontent = $format->get_view_url($module->sectionnum);
                             $anchor = 'module-' . $id;
                             $qrcodecontent->set_anchor($anchor);
                             $qrcodelink = $qrcodecontent;
                         }
-                        break;
+                    break;
                     case 'section':
                         $sectioninfo = $modinfo->get_section_info($id);
                         if (!is_null($sectioninfo)) {
@@ -154,7 +154,7 @@ class block_qr extends block_base {
                                 }
                             }
 
-                            $qrcodecontent = $format->get_view_url($id)->out(false);
+                            $qrcodecontent = $format->get_view_url($id);
                             $anchor = 'section-' . $id;
                             $qrcodelink = $qrcodecontent;
                         }
@@ -279,7 +279,7 @@ class block_qr extends block_base {
         $javascripturl = $CFG->wwwroot . '/blocks/qr/js/qrcode.min.js';
 
         $data = [
-            'qrcodecontent' => $qrcodecontent,
+            'qrcodecontent' => is_object($qrcodecontent) ? $qrcodecontent->out(false) : $qrcodecontent,
             'description' => $description,
             'javascript' => $javascripturl,
             'size' => $svgsize,
@@ -291,7 +291,7 @@ class block_qr extends block_base {
             'calendarlocation' => $calendarlocation,
             'calendarstart' => $calendarstart,
             'calendarend' => $calendarend,
-            'qrcodelink' => $qrcodelink,
+            'qrcodelink' => is_object($qrcodelink) ? $qrcodelink->out(false) : $qrcodelink,
             'urlshort' => $urlshort,
             'fullview' => $fullview,
             'configshortlink' => $configshortlink,
