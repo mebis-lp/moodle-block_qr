@@ -135,7 +135,7 @@ class block_qr extends block_base {
                             $module = $modinfo->get_cm($id);
                         } catch (moodle_exception $e) {
                             // Module setup in block config does not exist.
-                            if (has_capability('block/qr:addinstance', $this->context)) {
+                            if ($this->user_can_edit()) {
                                 $this->content->text = get_string('errormodulenotavailable', 'block_qr');
                             }
                             return $this->content;
@@ -157,7 +157,7 @@ class block_qr extends block_base {
                             $sectioninfo = $modinfo->get_section_info($id, MUST_EXIST);
                         } catch (moodle_exception $e) {
                             // Section setup in block config does not exist.
-                            if (has_capability('block/qr:addinstance', $this->context)) {
+                            if ($this->user_can_edit()) {
                                 $this->content->text = get_string('errorsectionnotavailable', 'block_qr');
                             }
                             return $this->content;
