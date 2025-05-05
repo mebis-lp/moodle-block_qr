@@ -14,6 +14,8 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
+use core\exception\moodle_exception;
+
 /**
  * Class block_qr
  *
@@ -129,7 +131,15 @@ class block_qr extends block_base {
                 $calendar = false;
                 switch ($type) {
                     case 'cmid':
-                        $module = $modinfo->get_cm($id);
+                        try {
+                            $module = $modinfo->get_cm($id);
+                        } catch (moodle_exception $e) {
+                            // Module setup in block config does not exist.
+                            if ($this->user_can_edit()) {
+                                $this->content->text = get_string('errormodulenotavailable', 'block_qr');
+                            }
+                            return $this->content;
+                        }
                         if (!is_null($module->get_url())) {
                             $description = $module->name;
                             $qrcodecontent = $module->url;
@@ -143,7 +153,15 @@ class block_qr extends block_base {
                         }
                     break;
                     case 'section':
-                        $sectioninfo = $modinfo->get_section_info($id);
+                        try {
+                            $sectioninfo = $modinfo->get_section_info($id, MUST_EXIST);
+                        } catch (moodle_exception $e) {
+                            // Section setup in block config does not exist.
+                            if ($this->user_can_edit()) {
+                                $this->content->text = get_string('errorsectionnotavailable', 'block_qr');
+                            }
+                            return $this->content;
+                        }
                         if (!is_null($sectioninfo)) {
                             $description = $sectioninfo->name;
                             if (empty($name)) {
@@ -156,6 +174,7 @@ class block_qr extends block_base {
 
                             $qrcodecontent = $format->get_view_url($id);
                             $anchor = 'section-' . $id;
+                            $qrcodecontent->set_anchor($anchor);
                             $qrcodelink = $qrcodecontent;
                         }
                         break;
