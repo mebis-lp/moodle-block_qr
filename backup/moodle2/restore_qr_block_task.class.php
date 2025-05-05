@@ -91,7 +91,7 @@ class restore_qr_block_task extends restore_block_task {
         $courseid = $this->get_courseid();
         $modinfo = get_fast_modinfo($courseid);
 
-        if ($configdata = $DB->get_field('block_instances', 'configdata', array('id' => $blockid))) {
+        if ($configdata = $DB->get_field('block_instances', 'configdata', ['id' => $blockid])) {
             $config = $this->decode_configdata($configdata);
 
             $decoder = $this->get_decoder();
@@ -120,7 +120,7 @@ class restore_qr_block_task extends restore_block_task {
             }
 
             $configdata = base64_encode(serialize($config));
-            $DB->set_field('block_instances', 'configdata', $configdata, array('id' => $blockid));
+            $DB->set_field('block_instances', 'configdata', $configdata, ['id' => $blockid]);
         }
     }
 }
