@@ -23,6 +23,15 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class block_qr_edit_form extends block_edit_form {
+    /** @var string Small QR code size. */
+    private const SIZE_SMALL = '150px';
+
+    /** @var string Medium QR code size. */
+    private const SIZE_MEDIUM = '200px';
+
+    /** @var string Large QR code size. */
+    private const SIZE_LARGE = '275px';
+
     /**
      * Loads the modules of the corresponding course (if there is one).
      *
@@ -221,14 +230,10 @@ class block_qr_edit_form extends block_edit_form {
 
         // Section header title.
         $mform->addElement('header', 'widthheader', get_string('settings', 'block_qr'));
-        // Settings.
-        define('QR_SIZE_SMALL', '150px');
-        define('QR_SIZE_MEDIUM', '200px');
-        define('QR_SIZE_LARGE', '275px');
         $sizeoptions = [
-            QR_SIZE_SMALL => get_string('small', 'block_qr'),
-            QR_SIZE_MEDIUM => get_string('medium', 'block_qr'),
-            QR_SIZE_LARGE => get_string('large', 'block_qr'),
+            self::SIZE_SMALL => get_string('small', 'block_qr'),
+            self::SIZE_MEDIUM => get_string('medium', 'block_qr'),
+            self::SIZE_LARGE => get_string('large', 'block_qr'),
         ];
         $selectsize = $mform->addElement(
             'select',
@@ -236,7 +241,7 @@ class block_qr_edit_form extends block_edit_form {
             get_string('config_size_label', 'block_qr'),
             $sizeoptions,
         );
-        $selectsize->setSelected(QR_SIZE_LARGE);
+        $selectsize->setSelected(self::SIZE_LARGE);
         $mform->setType('config_size', PARAM_TEXT);
     }
 
