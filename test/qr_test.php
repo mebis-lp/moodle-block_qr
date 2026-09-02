@@ -172,7 +172,7 @@ final class qr_test extends \advanced_testcase {
                 'config' => ['owncontent' => 'https://example.com/abc'],
                 'pageurl' => $urlmycourses,
                 'expect' => [
-                    'contains' => ['https://example.com/abc'],
+                    'contains' => ['<p class="text-center">https://example.com/abc</p>'],
                 ],
             ],
             'owncontent_text' => [
@@ -180,7 +180,7 @@ final class qr_test extends \advanced_testcase {
                 'config' => ['owncontent' => 'nur Text'],
                 'pageurl' => $urlmycourses,
                 'expect' => [
-                    'contains' => ['Show in full screen'],
+                    'contains' => ['Show in full screen', '<p class="text-center">nur Text</p>'],
                 ],
             ],
             'event' => [

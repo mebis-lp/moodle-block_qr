@@ -59,7 +59,6 @@ $string['latitude_error'] = 'Es sind nur Dezimalwerte zwischen -90 und 90 zuläs
 $string['longitude'] = 'Längengrad';
 $string['longitude_error'] = 'Es sind nur Dezimalwerte zwischen -180 und 180 zulässig. Beispiel: 10.49184';
 $string['medium'] = 'Mittel';
-$string['nocontent'] = 'Es wurde noch kein Inhalt konfiguriert. Klicken Sie auf das Zahnrad, um einen Inhalt für diesen QR-Block zu konfigurieren.';
 $string['nolink'] = 'Kein Link';
 $string['none'] = 'keine';
 $string['osm'] = 'OpenStreetMap';
