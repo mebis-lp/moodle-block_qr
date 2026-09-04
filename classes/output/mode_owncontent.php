@@ -39,7 +39,7 @@ class mode_owncontent implements \renderable, \templatable {
     public function export_for_template($output): array {
         $isurl = filter_var($this->raw, FILTER_VALIDATE_URL) !== false;
         return [
-            'description' => '',
+            'description' => $this->raw,
             'qrurl' => $isurl,
             'qrcodecontent' => $this->raw,
             'qrcodelink' => $isurl ? $this->raw : null,
