@@ -273,24 +273,24 @@ final class qr_test extends \advanced_testcase {
         // Perform the action on the target (cmid or section) before rendering the block.
         // Possible actions: 'none' (no change), 'move' (to another section), 'hide', 'delete'.
         if ($mode === 'cmid') {
+            $cmactions = new \core_courseformat\local\cmactions($this->course);
             if ($action === 'move') {
-                $modinfo = get_fast_modinfo($this->course->id);
-                $cm = $modinfo->get_cm($this->cmid);
-                $section = $DB->get_record('course_sections', ['id' => $this->secondsectionid], '*', MUST_EXIST);
-                moveto_module($cm, $section);
+                $cmactions->move_end_section($this->cmid, $this->secondsectionid);
             } else if ($action === 'hide') {
-                set_coursemodule_visible($this->cmid, 0);
+                $cmactions->set_visibility($this->cmid, 0);
             } else if ($action === 'delete') {
-                course_delete_module($this->cmid);
+                $cmactions->delete($this->cmid);
             }
         } else {
+            $sectionactions = new \core_courseformat\local\sectionactions($this->course);
+            $sections = get_fast_modinfo($this->course)->get_section_info_all();
             if ($action === 'move') {
-                move_section_to($this->course, $this->sectionnum, $this->sectionnum + 1);
+                $sectionactions->move_after($sections[$this->sectionnum], $sections[$this->sectionnum + 1]);
                 $this->sectionnum = $this->sectionnum + 1;
             } else if ($action === 'hide') {
-                set_section_visible($this->course->id, $this->sectionnum, 0);
+                $sectionactions->set_visibility($sections[$this->sectionnum], 0);
             } else if ($action === 'delete') {
-                course_delete_section($this->course, $this->sectionnum);
+                $sectionactions->delete($sections[$this->sectionnum]);
             }
         }
 
